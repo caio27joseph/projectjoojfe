@@ -9,6 +9,12 @@
 		<AppRailAnchor href="/tables/:id1" selected={$page.url.pathname === '/tables/:id1'}
 			>Table1</AppRailAnchor
 		>
+		<AppRailAnchor href="/auth/sign-up" selected={$page.url.pathname === '/auth/sign-up'}
+			>Sign Up</AppRailAnchor
+		>
+		<AppRailAnchor href="/auth/sign-in" selected={$page.url.pathname === '/auth/sign-in'}
+			>Sign In</AppRailAnchor
+		>
 	</AppRail>
 </div>
 

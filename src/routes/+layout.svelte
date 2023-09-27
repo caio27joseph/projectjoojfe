@@ -10,11 +10,19 @@
 </script>
 
 <!-- App Shell -->
-<AppShell>
+<AppShell class="app">
 	<!-- Page Route Content -->
 	<svelte:fragment slot="sidebarLeft">
 		<AppLeftBar />
 	</svelte:fragment>
 
-	<slot />
+	<main>
+		<slot />
+	</main>
 </AppShell>
+
+<style lang="postcss">
+	main {
+		background: #404646;
+	}
+</style>
