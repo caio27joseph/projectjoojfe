@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Library from '$lib/components/Library/Library.svelte';
-	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
+	import { page } from '$app/stores';
 
 	let valueSingle: string = 'books';
 	const table = {
@@ -88,6 +88,7 @@
 			}
 		]
 	};
+	console.log($page.route.id);
 </script>
 
 <div class="container h-screen bg-surface-600">
@@ -107,6 +108,7 @@
 			{/each}
 		</div>
 	</div>
+
 	<Library root={library} />
 </div>
 

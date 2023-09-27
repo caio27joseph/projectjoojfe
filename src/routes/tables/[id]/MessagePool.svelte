@@ -102,8 +102,4 @@
 		flex-grow: 1;
 		background: var(--color-primary-500); /* Adjust track color as needed */
 	}
-
-	::-webkit-scrollbar-track {
-		margin-bottom: 10px;
-	}
 </style>

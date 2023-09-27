@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { Tab, TabGroup } from '@skeletonlabs/skeleton';
 	import InspectorStatus from './InspectorStatus.svelte';
-	let tabSet: number = 2;
+	let tabSet: number = 1;
+	const components = [undefined, InspectorStatus, undefined];
 </script>
 
-<div class="inspector flex h-full">
-	<div>
-		<TabGroup>
+<div class="inspector flex h-full rounded-xl">
+	<div class="bg-surface-900">
+		<TabGroup active="text-primary-500">
 			<Tab flex="grow" bind:group={tabSet} name="controls-tab" value={0}>
 				<div class="flex justify-around">
 					<img src="/icons/controls.svg" alt="1" class="w-6 h-6" />
@@ -33,14 +34,8 @@
 			</Tab>
 		</TabGroup>
 	</div>
-	<div class="content grow">
-		{#if tabSet === 0}
-			(tab panel 1 contents)
-		{:else if tabSet === 1}
-			(tab panel 2 contents)
-		{:else if tabSet === 2}
-			(tab panel 3 contents)
-		{/if}
+	<div class="content grow overflow-auto">
+		<InspectorStatus hidden={tabSet === 1} />
 	</div>
 </div>
 
