@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
-	import { TableMenuEnum, menuSelectedOption } from './table-settings';
+	import { menuSelectedOption } from './tableLeftBar.stores';
+	import { TableMenuEnum } from './types';
 
 	const Menu: { [k: string]: string } = {
 		[TableMenuEnum.TableSettings]: 'Configurações da Mesa',
@@ -21,7 +22,6 @@
 			<h2>Manage your account settings and set e-mail preferences.</h2>
 		</span>
 	</div>
-	{$menuSelectedOption}
 	<div class="library-hub pt-6 pb-2 px-2">
 		<ListBox>
 			{#each Object.entries(Menu) as [k, v]}

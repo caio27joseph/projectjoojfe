@@ -1,16 +1,11 @@
-<script>
+<script lang="ts">
 	import { page } from '$app/stores';
 	import TableCard from '$lib/components/TableCard.svelte';
+	import type { TableSettings$result } from '$houdini';
 
 	const id = $page.params.id;
 
-	const table = {
-		title: "Jojo's Bizarre Adventure",
-		imageUrl:
-			'https://sucodemanga.com.br/wp-content/uploads/2021/04/jojo-bizarre-adventures-thumb.jpg',
-		description:
-			'Excepteur enim nulla cupidatat proident ipsum officia in reprehenderit anim nulla. Fugiat consectetur laborum mollit amet anim pariatur non exercitation labore dolore in deserunt elit proident. Consectetur consequat ut ullamco pariatur sit voluptate laboris dolor magna. Anim cillum laborum consequat amet eiusmod qui. Aliqua enim aliquip amet aute adipisicing.'
-	};
+	export let table: TableSettings$result['findTable'];
 
 	const body = table;
 </script>
@@ -54,7 +49,7 @@
 					<TableCard
 						{id}
 						title={body.title || table.title}
-						img={body.imageUrl || table.imageUrl}
+						img={body.imageUrl || table.imageUrl || ''}
 						disabled={true}
 					/>
 				</div>

@@ -1,11 +1,15 @@
 <script>
 	import { AppShell } from '@skeletonlabs/skeleton';
-	import Controller from '$lib/components/Table/LeftBar/LeftBarController.svelte';
+	import Controller from '$lib/components/TableLeftBar/TableLeftBarController.svelte';
+
+	export let data;
 </script>
 
 <AppShell>
 	<svelte:fragment slot="sidebarLeft">
-		<Controller />
+		{#if data.table}
+			<Controller table={data.table} />
+		{/if}
 	</svelte:fragment>
 
 	<slot />

@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
-import type { Table } from '~/graphql/types';
+import type { Table, Table$result } from '$houdini';
+import { writable, type Writable } from 'svelte/store';
 
-export const selectedTable = writable(null as any as Table);
+export const selectedTable: Writable<Table$result['findTable'] | undefined> = writable();

@@ -1,12 +1,8 @@
 <script lang="ts">
 	import Library from '$lib/components/Library/Library.svelte';
-
+	import type { Table$result } from '$houdini';
 	import { page } from '$app/stores';
-
-	const table = {
-		title: "Jojo's Bizarre Adventure",
-		img: 'https://sucodemanga.com.br/wp-content/uploads/2021/04/jojo-bizarre-adventures-thumb.jpg'
-	};
+	import { selectedTable } from '$lib/table/tableStore';
 
 	const libraries = [
 		{
@@ -180,16 +176,18 @@
 			}
 		]
 	};
+
+	export let table: Table$result['findTable'];
 </script>
 
 <div>
 	<a
 		href={$page.url.pathname + '/menu'}
-		class="table-info flex font-bold py-0 h-10"
-		style="background-image: url({table.img});"
+		class="table-info flex font-bold py-0 !h-44"
+		style="background-image: url({table.imageUrl});"
 	>
-		<h1 class="px-6 bg-gradient-to-t from-black bg-opacity-50">
-			Do dolore sunt pariatur elit ex ullamco
+		<h1 class="text-2xl p-3 pt-10 w-full bg-gradient-to-t from-black">
+			{table.title}
 		</h1>
 	</a>
 	<div class="library-hub pt-6 pb-2 px-2">
@@ -209,7 +207,6 @@
 
 <style>
 	.table-info {
-		height: 135px;
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: center;

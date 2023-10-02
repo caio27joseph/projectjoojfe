@@ -7,13 +7,7 @@ import {
 	type RequestEvent
 } from '@sveltejs/kit';
 
-export async function load({ cookies }) {
-	const authToken = cookies.get('authToken');
-
-	return {
-		clearUser: !authToken
-	};
-}
+// export async function load({ cookies }) {}
 
 type LoginFormResponse = {
 	email: string;
@@ -51,7 +45,7 @@ export const actions: Actions = {
 				};
 			} else {
 				const { access_token } = await response.json();
-				cookies.set('authToken', access_token, {
+				cookies.set('access_token', access_token, {
 					path: '/',
 					httpOnly: true,
 					maxAge: 60 * 60, // 1 hour,

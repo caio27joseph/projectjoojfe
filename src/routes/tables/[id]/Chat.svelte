@@ -49,6 +49,7 @@
 	.chat {
 		display: flex;
 		flex-direction: column;
+		width: 100%;
 		height: 100%; /* This ensures the chat container takes up the full height of its parent */
 		overflow: hidden; /* Prevents overflow */
 	}
