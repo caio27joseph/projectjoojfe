@@ -51,23 +51,16 @@
 	const formatDateBsl = (date: Date) => {
 		const now = new Date();
 		const diff = now.getTime() - date.getTime();
-		if (diff < 60000) {
-			return `${Math.floor(diff / 1000)} seconds ago`;
-		}
-
-		if (diff < 3600000) {
-			return `${Math.floor(diff / 60000)} minutes ago`;
-		}
-
-		if (diff < 21600000) {
-			return `${Math.floor(diff / 3600000)} hours ago`;
-		}
 
 		const day = date.getDate();
 		const month = date.getMonth() + 1;
 		const year = date.getFullYear();
 		const hours = date.getHours();
 		const minutes = date.getMinutes();
+
+		if (diff < 21600000) {
+			return `Today at ${hours}:${minutes}`;
+		}
 
 		return `${day}/${month}/${year} ${hours}:${minutes}`;
 	};

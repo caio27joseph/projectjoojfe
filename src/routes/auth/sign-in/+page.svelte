@@ -1,9 +1,7 @@
-<script>
-	let email = '';
-	let password = '';
-	function handleSubmit() {
-		// handle form submission, user authentication, etc.
-	}
+<script lang="ts">
+	import { goto } from '$app/navigation';
+
+	let errorMessage = ''; // To show errors
 </script>
 
 <div class="min-h-screen flex items-center justify-center flex-col lg:flex-row">
@@ -14,14 +12,18 @@
 	</div>
 
 	<form
-		on:submit|preventDefault={handleSubmit}
+		method="POST"
+		action="?/login"
 		class="w-full md:m-20 md:w-3/4 lg:w-1/2 xl:max-w-xl p-8 variant-soft-primary rounded-lg shadow-lg space-y-8"
 	>
 		<h2 class="text-on-primary font-heading text-4xl font-bold mb-8">Sign In</h2>
+		{#if errorMessage}
+			<div class="text-red-500">{errorMessage}</div>
+		{/if}
 		<div class="flex-grow flex flex-col space-y-6">
 			<label class="block">
 				<input
-					bind:value={email}
+					name="email"
 					class="form-input input block w-full"
 					type="email"
 					placeholder="Email"
@@ -29,7 +31,8 @@
 			</label>
 			<label class="block">
 				<input
-					bind:value={password}
+					id="password"
+					name="password"
 					class="form-input input block w-full"
 					type="password"
 					placeholder="Password"
@@ -46,31 +49,14 @@
 				</button>
 				<button
 					class="text-on-secondary font-base w-full sm:w-1/2 px-12 py-2 bg-tertiary-700 rounded-lg shadow-md"
+					on:click|preventDefault={() => goto('/auth/sign-up')}
 				>
 					Create Account
 				</button>
 			</div>
 
-			<div class="social-login hidden sm:flex flex-col space-y-2">
-				<button
-					class="text-on-secondary font-base w-full px-10 py-2 bg-secondary-700 rounded-lg shadow-md"
-				>
-					<span>Sign in with Google</span>
-				</button>
-				<button
-					class="text-on-secondary font-base w-full px-10 py-2 bg-secondary-700 rounded-lg shadow-md"
-				>
-					<span>Sign in with Microsoft</span>
-				</button>
-				<button
-					class="text-on-secondary font-base w-full px-10 py-2 bg-secondary-700 rounded-lg shadow-md"
-				>
-					<span>Sign in with Github</span>
-				</button>
-			</div>
-
 			<div class="flex flex-row justify-center items-center space-x-4 sm:hidden">
-				<button class="w-12 h-12 bg-primary-700 rounded-full">
+				<!-- <button class="w-12 h-12 bg-primary-700 rounded-full">
 					<img src="/path-to-google-icon.svg" alt="Google" class="w-6 h-6" />
 				</button>
 				<button class="w-12 h-12 bg-primary-700 rounded-full">
@@ -78,7 +64,7 @@
 				</button>
 				<button class="w-12 h-12 bg-primary-700 rounded-full">
 					<img src="/path-to-github-icon.svg" alt="Github" class="w-6 h-6" />
-				</button>
+				</button> -->
 			</div>
 		</div>
 	</form>

@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { selectedDirectory } from './store';
 	import Directory from './Directory.svelte';
-	import { ListBox } from '@skeletonlabs/skeleton';
+	import { ListBox, TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
 
 	export let root: IDirectory;
 
@@ -18,8 +18,13 @@
 	});
 </script>
 
-<div class="container py-2">
-	{#each root.directories || [] as directory}
-		<Directory {directory} layer={1} />
-	{/each}
+<div class="container p-2">
+	<TreeView padding="p-1.5" spacing="0">
+		{#each root.directories || [] as directory}
+			<Directory {directory} />
+		{/each}
+		{#each root.articles || [] as article}
+			<TreeViewItem>{article.name}</TreeViewItem>
+		{/each}
+	</TreeView>
 </div>

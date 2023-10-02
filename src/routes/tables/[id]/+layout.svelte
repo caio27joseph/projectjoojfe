@@ -1,11 +1,11 @@
 <script>
 	import { AppShell } from '@skeletonlabs/skeleton';
-	import TableLeftBar from '../TableLeftBar.svelte';
+	import Controller from '$lib/components/Table/LeftBar/LeftBarController.svelte';
 </script>
 
 <AppShell>
 	<svelte:fragment slot="sidebarLeft">
-		<TableLeftBar />
+		<Controller />
 	</svelte:fragment>
 
 	<slot />

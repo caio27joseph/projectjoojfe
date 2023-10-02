@@ -3,10 +3,14 @@
 	export let title: string;
 	export let img: string;
 	let currentVariant = 'bg-initial';
+	export let disabled = false;
 </script>
 
 <div class="card-wrapper">
-	<a class="flex flex-col lg:flex-row card card-hover overflow-hidden relative" href="/tables/{id}">
+	<a
+		class="flex flex-col lg:flex-row card card-hover overflow-hidden relative"
+		href={disabled ? '#' : '/tables/{id}'}
+	>
 		<div class="img-container w-[182px]">
 			<img src={img} class="w-full h-full object-cover" alt="Post" />
 		</div>

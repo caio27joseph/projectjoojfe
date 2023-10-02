@@ -6,7 +6,7 @@
 <div class="container">
 	<AppRail>
 		<AppRailAnchor href="/home" selected={$page.url.pathname === '/home'}>Home</AppRailAnchor>
-		<AppRailAnchor href="/tables/:id1" selected={$page.url.pathname === '/tables/:id1'}
+		<AppRailAnchor href="/tables/1" selected={$page.url.pathname === '/tables/1'}
 			>Table1</AppRailAnchor
 		>
 		<AppRailAnchor href="/auth/sign-up" selected={$page.url.pathname === '/auth/sign-up'}

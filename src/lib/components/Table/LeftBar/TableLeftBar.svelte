@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Library from '$lib/components/Library/Library.svelte';
+
 	import { page } from '$app/stores';
 
-	let valueSingle: string = 'books';
 	const table = {
 		title: "Jojo's Bizarre Adventure",
 		img: 'https://sucodemanga.com.br/wp-content/uploads/2021/04/jojo-bizarre-adventures-thumb.jpg'
@@ -22,8 +22,8 @@
 			icon: 'user-circle'
 		}
 	];
-	const library: IDirectory = {
-		name: 'root',
+	const root: IDirectory = {
+		name: 'Biblioteca 1',
 		directories: [
 			{
 				name: 'Attachments'
@@ -82,21 +82,116 @@
 						name: 'Artigo 1'
 					},
 					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
+						name: 'Artigo 1'
+					},
+					{
 						name: 'Artigo 2'
 					}
 				]
 			}
+		],
+		articles: [
+			{
+				name: 'Artigo 1'
+			},
+			{
+				name: 'Artigo 1'
+			},
+			{
+				name: 'Artigo 1'
+			},
+			{
+				name: 'Artigo 1'
+			},
+			{
+				name: 'Artigo 1'
+			},
+			{
+				name: 'Artigo 1'
+			},
+			{
+				name: 'Artigo 1'
+			},
+			{
+				name: 'Artigo 1'
+			},
+			{
+				name: 'Artigo 1'
+			},
+			{
+				name: 'Artigo 1'
+			},
+			{
+				name: 'Artigo 1'
+			},
+			{
+				name: 'Artigo 1'
+			},
+			{
+				name: 'Artigo 2'
+			}
 		]
 	};
-	console.log($page.route.id);
 </script>
 
-<div class="container h-screen bg-surface-600">
-	<div class="table-info flex font-bold py-0" style="background-image: url({table.img});">
+<div>
+	<a
+		href={$page.url.pathname + '/menu'}
+		class="table-info flex font-bold py-0 h-10"
+		style="background-image: url({table.img});"
+	>
 		<h1 class="px-6 bg-gradient-to-t from-black bg-opacity-50">
-			Do dolore sunt pariatur elit ex ullamco cillum ut et esse quis labore excepteur amet.
+			Do dolore sunt pariatur elit ex ullamco
 		</h1>
-	</div>
+	</a>
 	<div class="library-hub pt-6 pb-2 px-2">
 		<h1 class="text-primary-500 px-4">Bibliotecas</h1>
 		<div class="hub-options">
@@ -109,7 +204,7 @@
 		</div>
 	</div>
 
-	<Library root={library} />
+	<Library {root} />
 </div>
 
 <style>
@@ -120,10 +215,6 @@
 		background-position: center;
 		position: relative;
 		align-items: end;
-	}
-
-	.container {
-		width: 240px;
 	}
 	.library-hub {
 		border-bottom: 0.1px solid #ffffff40;

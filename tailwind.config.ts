@@ -20,6 +20,7 @@ export default {
 		skeleton({
 			themes: {
 				custom: [myCustomTheme]
+				// preset: ['wintry']
 			}
 		})
 	]
