@@ -1,6 +1,9 @@
 import { graphql } from '$houdini';
+import { redirect } from '@sveltejs/kit';
 
 export const load = async (event) => {
+	const id = event.params.id;
+
 	const store = graphql(`
 		query Table($id: ID!) {
 			findTable(id: $id) {
