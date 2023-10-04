@@ -7,11 +7,10 @@ export async function handleFetch({ request, fetch, event }) {
 
 	return fetch(request);
 }
+
 export async function handle({ event, resolve }) {
 	const access_token = event.cookies.get('access_token');
 	const path = event.url.pathname;
-
-	event.locals.authedUser = !!access_token;
 
 	const unprotected = [
 		'/',
@@ -20,6 +19,10 @@ export async function handle({ event, resolve }) {
 		'/auth/forgot-password',
 		'/auth/reset-password'
 	];
+
+	if (!(event.locals.authedUser && path === '/auth/sign-in')) {
+		event.locals.authedUser = !!access_token;
+	}
 
 	if (unprotected.includes(path) && access_token) {
 		throw redirect(302, '/home');

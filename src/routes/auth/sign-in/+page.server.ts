@@ -19,6 +19,7 @@ export const actions: Actions = {
 	login: async ({
 		cookies,
 		fetch,
+		locals,
 		request
 	}: RequestEvent<{ email?: string; password?: string }>) => {
 		const form = await request.formData();
@@ -45,6 +46,10 @@ export const actions: Actions = {
 				};
 			} else {
 				const { access_token } = await response.json();
+				if (!access_token) {
+					throw new Error('No access token');
+				}
+				locals.authedUser = true;
 				cookies.set('access_token', access_token, {
 					path: '/',
 					httpOnly: true,

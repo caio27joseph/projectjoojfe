@@ -6,37 +6,20 @@
 	export let disabled = false;
 </script>
 
-<div class="card-wrapper">
-	<a
-		class="flex flex-col lg:flex-row card card-hover overflow-hidden relative"
-		href={disabled ? '#' : '/tables/{id}'}
-	>
-		<div class="img-container w-[182px]">
-			<img src={img} class="w-full h-full object-cover" alt="Post" />
-		</div>
-		<div class="flex-grow p-4 space-y-4">
-			<h6 class="h6" data-toc-ignore>{title}</h6>
-			<h3 class="h3" data-toc-ignore>Icon1, Icon2</h3>
-		</div>
-	</a>
-</div>
+<a class="table-card card card-hover bg-none" href={disabled ? '#' : `/tables/${id}`}>
+	<div class="table-info flex font-bold py-0 h-full" style="background-image: url({img});">
+		<h1 class="text-2xl p-3 pt-10 w-full bg-gradient-to-t from-black">
+			{title}
+		</h1>
+	</div>
+</a>
 
 <style>
-	.card-wrapper {
+	.table-info {
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
 		position: relative;
-		width: 364px; /* Setting explicit width based on your feedback */
-		height: 139px; /* Setting explicit height based on your feedback */
-	}
-
-	.card {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
-
-	img {
-		object-fit: cover;
+		align-items: end;
 	}
 </style>

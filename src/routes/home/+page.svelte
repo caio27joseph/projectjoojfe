@@ -60,11 +60,11 @@
 <div class="feed flex flex-col space-y-8">
 	{#each [1, 2, 3] as _}
 		<!-- This loop is just a placeholder to generate 3 rows. -->
-		<div class="w-full max-w-full">
+		<div class="w-full max-w-full h-48">
 			<h2 class="text-2xl font-bold mb-4">Recomendados</h2>
-			<ul class="flex flex-row space-x-4 overflow-x-auto pb-5">
+			<ul class="flex flex-row space-x-4 overflow-x-scroll pb-5 h-full">
 				{#each recommendedTables as table}
-					<li class="">
+					<li class="w-64 shrink-0">
 						<TableCard id={table.id.toString()} title={table.title} img={table.img} />
 					</li>
 				{/each}

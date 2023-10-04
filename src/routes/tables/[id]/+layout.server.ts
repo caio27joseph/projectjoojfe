@@ -26,7 +26,6 @@ export const load = async (event) => {
 			status: 404
 		};
 	}
-	console.log('loading table', data?.findTable.title);
 	return {
 		table: data?.findTable
 	};

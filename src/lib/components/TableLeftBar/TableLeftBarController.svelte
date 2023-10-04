@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import type { Table$result } from '$houdini';
-	import { writable } from 'svelte/store';
 	import TableLeftBar from './TableLeftBar.svelte';
 	import TableMenuBar from './TableSettingsMenuBar.svelte';
 

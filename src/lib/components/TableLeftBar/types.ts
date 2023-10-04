@@ -1,5 +1,6 @@
 export enum TableMenuEnum {
 	TableSettings = 'TableSettings',
 	NpcSettings = 'NpcSettings',
-	LibrarySettings = 'LibrarySettings'
+	LibrarySettings = 'LibrarySettings',
+	DangerZone = 'DangerZone'
 }

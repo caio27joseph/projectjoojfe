@@ -2,6 +2,7 @@
 	import type { TableSettings$result } from '$houdini';
 	import { menuSelectedOption } from '$lib/components/TableLeftBar/tableLeftBar.stores';
 	import { TableMenuEnum } from '$lib/components/TableLeftBar/types';
+	import DangerZone from './DangerZone.svelte';
 	import TableSettings from './TableSettings.svelte';
 
 	export let data;
@@ -17,6 +18,8 @@
 	{:else if $menuSelectedOption === TableMenuEnum.LibrarySettings}
 		Configurações da Biblioteca
 		<!-- else if content here -->
+	{:else if $menuSelectedOption === TableMenuEnum.DangerZone}
+		<DangerZone {table} />
 	{:else}
 		<!-- else content here -->
 	{/if}

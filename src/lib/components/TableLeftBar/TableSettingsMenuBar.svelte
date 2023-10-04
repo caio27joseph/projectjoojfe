@@ -6,12 +6,14 @@
 	const Menu: { [k: string]: string } = {
 		[TableMenuEnum.TableSettings]: 'Configurações da Mesa',
 		[TableMenuEnum.NpcSettings]: 'Configurações de NPC',
-		[TableMenuEnum.LibrarySettings]: 'Configurações da Biblioteca'
+		[TableMenuEnum.LibrarySettings]: 'Configurações da Biblioteca',
+		[TableMenuEnum.DangerZone]: 'Zona de Perigo'
 	};
 	const MenuIcons: { [k: string]: string } = {
 		[TableMenuEnum.TableSettings]: 'settings.svg',
 		[TableMenuEnum.NpcSettings]: 'user-circle.svg',
-		[TableMenuEnum.LibrarySettings]: 'compass.svg'
+		[TableMenuEnum.LibrarySettings]: 'compass.svg',
+		[TableMenuEnum.DangerZone]: 'status.svg' // TODO: Change this icon
 	};
 </script>
 
