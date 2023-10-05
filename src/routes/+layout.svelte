@@ -8,7 +8,7 @@
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 
-	import AppLeftBar from '$lib/components/AppLeftBar.svelte';
+	import AppLeftBar from './AppLeftBar.svelte';
 	import CreateTableModal from '$lib/components/CreateTableModal.svelte';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
@@ -18,7 +18,6 @@
 			slot: '<p>Skeleton</p>'
 		}
 	};
-
 	export let data;
 </script>
 

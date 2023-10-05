@@ -1,4 +1,4 @@
-import { goto } from '$app/navigation';
+import { goto, invalidateAll } from '$app/navigation';
 import { redirect, type Actions, type RequestEvent, type ActionResult, fail } from '@sveltejs/kit';
 
 // export async function load({ cookies }) {}

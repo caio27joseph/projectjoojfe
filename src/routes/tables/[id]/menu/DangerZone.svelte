@@ -1,11 +1,4 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import TableCard from '$lib/components/TableCard.svelte';
-	import type { TableSettings$result, UpdateTable$input, UpdateTable$result } from '$houdini';
-
-	const id = $page.params.id;
-
-	export let table: TableSettings$result['findTable'];
 </script>
 
 <div>

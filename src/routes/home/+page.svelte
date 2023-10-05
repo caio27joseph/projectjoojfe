@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import TableCard from '$lib/components/TableCard.svelte';
+
 	const bestTable = {
 		id: 1,
 		title: 'Mesa 1',
@@ -8,43 +10,7 @@
 		img: 'https://th.bing.com/th/id/R.1913958f798a3d3fbb7ecc121f3f0ac0?rik=xySiN%2f04BFQr2w&pid=ImgRaw&r=0'
 	};
 
-	const recommendedTables = [
-		{
-			id: 1,
-			title: 'Mesa 1',
-			description:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec velit nec nunc tincidunt ultrices. Nulla facilisi. Nulla facilisi.',
-			img: 'https://sucodemanga.com.br/wp-content/uploads/2021/04/jojo-bizarre-adventures-thumb.jpg'
-		},
-		{
-			id: 2,
-			title: 'Mesa 2',
-			description:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec velit nec nunc tincidunt ultrices. Nulla facilisi. Nulla facilisi.',
-			img: 'https://sucodemanga.com.br/wp-content/uploads/2021/04/jojo-bizarre-adventures-thumb.jpg'
-		},
-		{
-			id: 3,
-			title: 'Mesa 3',
-			description:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec velit nec nunc tincidunt ultrices. Nulla facilisi. Nulla facilisi.',
-			img: 'https://sucodemanga.com.br/wp-content/uploads/2021/04/jojo-bizarre-adventures-thumb.jpg'
-		},
-		{
-			id: 4,
-			title: 'Mesa 4',
-			description:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec velit nec nunc tincidunt ultrices. Nulla facilisi. Nulla facilisi.',
-			img: 'https://sucodemanga.com.br/wp-content/uploads/2021/04/jojo-bizarre-adventures-thumb.jpg'
-		},
-		{
-			id: 5,
-			title: 'Mesa 5',
-			description:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec velit nec nunc tincidunt ultrices. Nulla facilisi. Nulla facilisi.',
-			img: 'https://sucodemanga.com.br/wp-content/uploads/2021/04/jojo-bizarre-adventures-thumb.jpg'
-		}
-	];
+	const tables = $page.data?.myTables ?? [];
 </script>
 
 <div
@@ -63,9 +29,9 @@
 		<div class="w-full max-w-full h-48">
 			<h2 class="text-2xl font-bold mb-4">Recomendados</h2>
 			<ul class="flex flex-row space-x-4 overflow-x-scroll pb-5 h-full">
-				{#each recommendedTables as table}
+				{#each tables as table}
 					<li class="w-64 shrink-0">
-						<TableCard id={table.id.toString()} title={table.title} img={table.img} />
+						<TableCard id={table.id.toString()} title={table.title} img={table.imageUrl} />
 					</li>
 				{/each}
 			</ul>

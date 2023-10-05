@@ -1,8 +1,7 @@
 <script lang="ts">
 	import Library from '$lib/components/Library/Library.svelte';
-	import type { Table$result } from '$houdini';
 	import { page } from '$app/stores';
-	import { selectedTable } from '$lib/table/tableStore';
+	import type { Table$result } from '$houdini';
 
 	const libraries = [
 		{

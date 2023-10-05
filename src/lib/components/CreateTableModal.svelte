@@ -17,12 +17,7 @@
 				initials={getInitials(tableInput.title ?? '') ?? 'JooJ'}
 			/>
 			<div class="w-80 h-48">
-				<TableCard
-					disabled={true}
-					id={''}
-					title={tableInput.title ?? ''}
-					img={tableInput.imageUrl ?? ''}
-				/>
+				<TableCard title={tableInput.title ?? ''} img={tableInput.imageUrl ?? ''} />
 			</div>
 		</div>
 	</header>

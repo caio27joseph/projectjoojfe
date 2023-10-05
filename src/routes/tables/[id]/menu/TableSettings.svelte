@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import TableCard from '$lib/components/TableCard.svelte';
-	import type { TableSettings$result, UpdateTable$input, UpdateTable$result } from '$houdini';
-
-	const id = $page.params.id;
+	import type { TableSettings$result, UpdateTable$input } from '$houdini';
 
 	export let table: TableSettings$result['findTable'];
 
@@ -64,10 +62,8 @@
 						<h3 class="text-xl text-tertiary-500">Preview</h3>
 						<div class="table-preview w-80 h-48">
 							<TableCard
-								{id}
 								title={body.title || table.title}
 								img={body.imageUrl || table.imageUrl || ''}
-								disabled={true}
 							/>
 						</div>
 					</div>

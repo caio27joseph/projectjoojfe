@@ -19,7 +19,7 @@
 		Configurações da Biblioteca
 		<!-- else if content here -->
 	{:else if $menuSelectedOption === TableMenuEnum.DangerZone}
-		<DangerZone {table} />
+		<DangerZone />
 	{:else}
 		<!-- else content here -->
 	{/if}

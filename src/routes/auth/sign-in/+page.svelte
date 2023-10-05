@@ -15,7 +15,6 @@
 		<img src="/RPJooJ.svg" alt="RPJooJ" class="h-10 md:h-20" />
 		<h1 class="text-on-primary font-heading text-2xl font-semibold hidden lg:block">Boas Vindas</h1>
 	</div>
-	{$error}
 	<form
 		method="POST"
 		action="?/login"
