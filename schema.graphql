@@ -11,12 +11,12 @@ scalar DateTime
 
 type Mutation {
   createTable(input: CreateTableInput!): Table!
-  removeTable(id: ID!): Table!
-  updateTable(id: ID!, input: UpdateTableInput!): Table!
+  removeTable(where: WhereInput!): Table!
+  updateTable(input: UpdateTableInput!, where: WhereInput!): Table!
 }
 
 type Query {
-  findTable(id: ID!): Table!
+  findTable(where: WhereInput!): Table!
   myTables: [Table!]!
   user(id: Int!): User!
 }
@@ -40,4 +40,8 @@ input UpdateTableInput {
 type User {
   id: ID!
   myTables: [Table!]!
+}
+
+input WhereInput {
+  id: ID!
 }

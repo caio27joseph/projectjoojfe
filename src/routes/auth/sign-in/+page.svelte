@@ -1,7 +1,12 @@
 <script lang="ts">
+	import { applyAction, enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
+	import { redirect } from '@sveltejs/kit';
+	import { writable } from 'svelte/store';
 
-	let errorMessage = ''; // To show errors
+	const body: any = {};
+
+	let error = writable(false); // To show errors
 </script>
 
 <div class="min-h-screen flex items-center justify-center flex-col lg:flex-row">
@@ -10,15 +15,23 @@
 		<img src="/RPJooJ.svg" alt="RPJooJ" class="h-10 md:h-20" />
 		<h1 class="text-on-primary font-heading text-2xl font-semibold hidden lg:block">Boas Vindas</h1>
 	</div>
-
+	{$error}
 	<form
 		method="POST"
 		action="?/login"
 		class="w-full md:m-20 md:w-3/4 lg:w-1/2 xl:max-w-xl p-8 variant-soft-primary rounded-lg shadow-lg space-y-8"
+		use:enhance={(e) => {
+			return async ({ result }) => {
+				if (result.type === 'failure') {
+					error.set(true);
+				}
+				await applyAction(result);
+			};
+		}}
 	>
 		<h2 class="text-on-primary font-heading text-4xl font-bold mb-8">Sign In</h2>
-		{#if errorMessage}
-			<div class="text-red-500">{errorMessage}</div>
+		{#if $error}
+			<div class="text-red-500">Invalid Credentials!</div>
 		{/if}
 		<div class="flex-grow flex flex-col space-y-6">
 			<label class="block">
@@ -27,6 +40,7 @@
 					class="form-input input block w-full"
 					type="email"
 					placeholder="Email"
+					bind:value={body.email}
 				/>
 			</label>
 			<label class="block">
@@ -36,6 +50,7 @@
 					class="form-input input block w-full"
 					type="password"
 					placeholder="Password"
+					bind:value={body.password}
 				/>
 			</label>
 

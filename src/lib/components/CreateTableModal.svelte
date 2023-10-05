@@ -50,7 +50,7 @@
 			</div>
 			<div class="actions p-6">
 				<button type="submit" class="w-full rounded-lg shadow-md variant-ghost-success p-2">
-					Submit
+					Create
 				</button>
 			</div>
 		</form>

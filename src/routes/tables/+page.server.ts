@@ -37,7 +37,5 @@ export const actions: Actions = {
 		}
 
 		throw redirect(302, `/tables/${data.createTable.id}`);
-		const modalStore = getModalStore();
-		modalStore.close();
 	}
 };

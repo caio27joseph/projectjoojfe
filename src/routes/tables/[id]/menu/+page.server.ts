@@ -3,8 +3,8 @@ import { fail, type Actions, type RequestEvent, redirect } from '@sveltejs/kit';
 
 export const load = async (event) => {
 	const store = graphql(`
-		query TableSettings($id: ID!) {
-			findTable(id: $id) {
+		query TableSettings($where: WhereInput!) {
+			findTable(where: $where) {
 				id
 				title
 				imageUrl
@@ -15,7 +15,7 @@ export const load = async (event) => {
 	const res = await store.fetch({
 		event,
 		variables: {
-			id: event.params.id
+			where: { id: event.params.id }
 		}
 	});
 	const data = res.data;
@@ -42,8 +42,8 @@ export const actions: Actions = {
 		const description = form.get('description')?.toString() || undefined;
 
 		const mutation = graphql(`
-			mutation UpdateTable($id: ID!, $input: UpdateTableInput!) {
-				updateTable(id: $id, input: $input) {
+			mutation UpdateTable($where: WhereInput!, $input: UpdateTableInput!) {
+				updateTable(where: $where, input: $input) {
 					title
 					imageUrl
 				}
@@ -52,7 +52,9 @@ export const actions: Actions = {
 
 		const res = await mutation.mutate(
 			{
-				id,
+				where: {
+					id
+				},
 				input: {
 					title,
 					imageUrl,
@@ -72,8 +74,8 @@ export const actions: Actions = {
 		}
 
 		const mutation = graphql(`
-			mutation RemoveTable($id: ID!) {
-				removeTable(id: $id) {
+			mutation RemoveTable($where: WhereInput!) {
+				removeTable(where: $where) {
 					id
 					title
 					imageUrl
@@ -83,7 +85,9 @@ export const actions: Actions = {
 
 		const res = await mutation.mutate(
 			{
-				id
+				where: {
+					id
+				}
 			},
 			{
 				event

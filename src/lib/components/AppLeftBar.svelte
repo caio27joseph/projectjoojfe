@@ -44,6 +44,9 @@
 		<AppRailAnchor href="/auth/sign-in" selected={$page.url.pathname === '/auth/sign-in'}
 			>Sign In</AppRailAnchor
 		>
+		<form method="POST">
+			<button formaction="/auth/account?/logout"> Logout </button>
+		</form>
 	</svelte:fragment>
 </AppRail>
 
