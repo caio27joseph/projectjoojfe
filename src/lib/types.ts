@@ -2,7 +2,9 @@ interface IArticle {
 	name: string;
 }
 interface IDirectory {
+	id: string;
 	name: string;
+	parentId?: string | null;
 	directories?: IDirectory[];
 	articles?: IArticle[];
 }

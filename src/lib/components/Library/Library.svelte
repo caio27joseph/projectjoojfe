@@ -2,11 +2,29 @@
 	import { onMount } from 'svelte';
 	import { selectedDirectory } from './store';
 	import Directory from './Directory.svelte';
-	import { ListBox, TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
+	import { TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
+	import { groupBy } from 'lodash';
 
-	export let root: IDirectory;
+	export let root: {
+		readonly id: string;
+		readonly name: string;
+		readonly parentId?: string | null;
+	}[];
+
+	const dirByParent = groupBy(root, 'parentId');
 
 	let selectedDirName: string | null;
+
+	const dirs: IDirectory[] = dirByParent['null'];
+	const addChilds = (dir: IDirectory) => {
+		dir.directories = dirByParent[dir.id];
+		for (const child of dir.directories ?? []) {
+			addChilds(child);
+		}
+	};
+	for (const dir of dirs) {
+		addChilds(dir);
+	}
 
 	// Subscribe to the store
 	onMount(() => {
@@ -20,11 +38,11 @@
 
 <div class="container p-2">
 	<TreeView padding="p-1.5" spacing="0">
-		{#each root.directories || [] as directory}
+		{#each dirs || [] as directory}
 			<Directory {directory} />
 		{/each}
-		{#each root.articles || [] as article}
+		<!-- {#each root.articles || [] as article}
 			<TreeViewItem>{article.name}</TreeViewItem>
-		{/each}
+		{/each} -->
 	</TreeView>
 </div>

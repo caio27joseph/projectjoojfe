@@ -4,8 +4,6 @@
 	import { redirect } from '@sveltejs/kit';
 	import { writable } from 'svelte/store';
 
-	const body: any = {};
-
 	let error = writable(false); // To show errors
 </script>
 
@@ -30,16 +28,15 @@
 	>
 		<h2 class="text-on-primary font-heading text-4xl font-bold mb-8">Sign In</h2>
 		{#if $error}
-			<div class="text-red-500">Invalid Credentials!</div>
+			<div class="text-error-300">Invalid Credentials!</div>
 		{/if}
 		<div class="flex-grow flex flex-col space-y-6">
 			<label class="block">
 				<input
 					name="email"
-					class="form-input input block w-full"
+					class="form-input input block w-full {$error ? 'input-error' : ''}"
 					type="email"
 					placeholder="Email"
-					bind:value={body.email}
 				/>
 			</label>
 			<label class="block">
@@ -49,7 +46,6 @@
 					class="form-input input block w-full"
 					type="password"
 					placeholder="Password"
-					bind:value={body.password}
 				/>
 			</label>
 

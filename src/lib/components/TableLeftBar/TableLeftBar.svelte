@@ -1,182 +1,16 @@
 <script lang="ts">
 	import Library from '$lib/components/Library/Library.svelte';
 	import { page } from '$app/stores';
-	import type { Table$result } from '$houdini';
+	import type { TableInfo$result } from '$houdini';
 
-	const libraries = [
-		{
-			name: 'Cenário',
-			icon: 'compass'
-		},
-		{
-			name: 'Sistema',
-			icon: 'settings'
-		},
-		{
-			name: 'Personagens',
-			icon: 'user-circle'
-		}
-	];
-	const root: IDirectory = {
-		name: 'Biblioteca 1',
-		directories: [
-			{
-				name: 'Attachments'
-			},
-			{
-				name: 'Templates'
-			},
-			{
-				name: 'Artigos',
-				directories: [
-					{
-						name: 'Libraries 1 '
-					},
-					{
-						name: 'Libraries 2 ',
+	import Icon from '@iconify/svelte';
+	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 
-						articles: [
-							{
-								name: 'Artigo 2.1'
-							},
-							{
-								name: 'Artigo 2.2'
-							}
-						]
-					},
-					{
-						name: 'Libraries 3 '
-					},
-					{
-						name: 'Libraries 4 '
-					},
-					{
-						name: 'Libraries 5 ',
-
-						directories: [
-							{
-								name: 'Libraries 5.1 ',
-								articles: [
-									{
-										name: 'Artigo 5.1'
-									},
-									{
-										name: 'Artigo 5.2'
-									}
-								]
-							},
-							{
-								name: 'Libraries 5.2 '
-							}
-						]
-					}
-				],
-
-				articles: [
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 1'
-					},
-					{
-						name: 'Artigo 2'
-					}
-				]
-			}
-		],
-		articles: [
-			{
-				name: 'Artigo 1'
-			},
-			{
-				name: 'Artigo 1'
-			},
-			{
-				name: 'Artigo 1'
-			},
-			{
-				name: 'Artigo 1'
-			},
-			{
-				name: 'Artigo 1'
-			},
-			{
-				name: 'Artigo 1'
-			},
-			{
-				name: 'Artigo 1'
-			},
-			{
-				name: 'Artigo 1'
-			},
-			{
-				name: 'Artigo 1'
-			},
-			{
-				name: 'Artigo 1'
-			},
-			{
-				name: 'Artigo 1'
-			},
-			{
-				name: 'Artigo 1'
-			},
-			{
-				name: 'Artigo 2'
-			}
-		]
-	};
-
-	export let table: Table$result['findTable'];
+	export let libraries: TableInfo$result['tableLibraries'];
+	let selectedLibrary = 0;
+	let root: any = null;
+	$: root = libraries[selectedLibrary]?.root;
+	export let table: TableInfo$result['findTable'];
 </script>
 
 <div>
@@ -192,16 +26,38 @@
 	<div class="library-hub pt-6 pb-2 px-2">
 		<h1 class="text-primary-500 px-4">Bibliotecas</h1>
 		<div class="hub-options">
-			{#each libraries as library}
-				<div class="navigation-item flex px-4 py-2 space-x-1">
-					<img class="h-6 w-4" src="/icons/{library.icon}.svg" alt="" />
-					<h1>{library.name}</h1>
-				</div>
-			{/each}
+			<ListBox>
+				{#each libraries as library, i}
+					<!-- content here -->
+					<ListBoxItem padding="0" bind:group={selectedLibrary} name={library.name} value={i}>
+						<div class="flex px-4 py-2 items-center">
+							<Icon
+								icon="material-symbols:menu-book-outline-rounded"
+								width="20"
+								height="28"
+								class="text-tertiary-500"
+							/>
+							<h1 class="ml-1">{library.name}</h1>
+						</div>
+					</ListBoxItem>
+				{/each}
+				<!-- <div class="navigation-item flex px-4 py-2 space-x-1">
+						<Icon
+							icon="material-symbols:menu-book-outline-rounded"
+							width="16"
+							height="24"
+							class="text-tertiary-500"
+						/>
+						<h1>{library.name}</h1>
+						<ListBoxItem bind:group={valueSingle} name="medium" value="movies">Movies</ListBoxItem>
+						<ListBoxItem bind:group={valueSingle} name="medium" value="tv">TV</ListBoxItem>
+					</div> -->
+			</ListBox>
 		</div>
 	</div>
-
-	<Library {root} />
+	{#if root && root?.length > 0}
+		<Library {root} />
+	{/if}
 </div>
 
 <style>

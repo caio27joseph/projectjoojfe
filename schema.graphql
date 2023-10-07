@@ -1,3 +1,14 @@
+input CreateDirectoryInput {
+  name: String!
+  parentId: String
+}
+
+input CreateLibraryInput {
+  icon: String
+  name: String!
+  tableId: String!
+}
+
 input CreateTableInput {
   description: String
   imageUrl: String
@@ -9,15 +20,39 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Directory {
+  id: String!
+  name: String!
+  parentId: String
+}
+
+input FindTableLibrariesInput {
+  tableId: ID!
+}
+
+type Library {
+  icon: String
+  id: ID!
+  name: String!
+  root: [Directory!]!
+  table: Table!
+}
+
 type Mutation {
+  addDirectory(input: CreateDirectoryInput!, where: WhereInput!): Library!
+  createLibrary(input: CreateLibraryInput!): Library!
   createTable(input: CreateTableInput!): Table!
+  removeLibrary(where: WhereInput!): Library!
   removeTable(where: WhereInput!): Table!
+  updateLibrary(input: UpdateLibraryInput!, where: WhereInput!): Library!
   updateTable(input: UpdateTableInput!, where: WhereInput!): Table!
 }
 
 type Query {
   findTable(where: WhereInput!): Table!
+  library(where: WhereInput!): Library!
   myTables: [Table!]!
+  tableLibraries(where: FindTableLibrariesInput!): [Library!]!
   user(id: Int!): User!
 }
 
@@ -29,6 +64,12 @@ type Table {
   ownerId: ID!
   title: String!
   updatedAt: DateTime!
+}
+
+input UpdateLibraryInput {
+  icon: String
+  name: String
+  tableId: String
 }
 
 input UpdateTableInput {

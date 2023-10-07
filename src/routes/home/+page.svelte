@@ -1,29 +1,39 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import TableCard from '$lib/components/TableCard.svelte';
 
-	const bestTable = {
-		id: 1,
-		title: 'Mesa 1',
-		description:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec velit nec nunc tincidunt ultrices. Nulla facilisi. Nulla facilisi.',
-		img: 'https://th.bing.com/th/id/R.1913958f798a3d3fbb7ecc121f3f0ac0?rik=xySiN%2f04BFQr2w&pid=ImgRaw&r=0'
-	};
+	export let data;
 
-	const tables = $page.data?.myTables ?? [];
+	const tables = data.myTables ?? [];
+
+	const bestTable = tables[0];
 </script>
 
 <div
-	class="container h-[80vh] bg-center bg-cover w-full max-w-full"
-	style="background-image: url({bestTable.img});"
+	class="container h-[80vh] bg-center bg-cover w-full max-w-full flex flex-col justify-evenly"
+	style="background-image: url({bestTable.imageUrl});"
 >
-	<div class="table-info p-8 bg-black bg-opacity-50 text-white absolute top-0 left-0">
-		<h2 class="text-xl font-bold mb-4">{bestTable.title}</h2>
-		<p>{bestTable.description}</p>
-	</div>
-	. Aqui mostrando o que ninguem mostra . Aqui mostrando o que ninguem mostra
+	<a class="cols grid grid-cols-2" href="/tables/{bestTable.id}">
+		<div class="grow table-info p-8 text-white variant-glass-surface rounded-sm max-w-0.5">
+			<h2 class="text-3xl font-bold mb-4">{bestTable.title}</h2>
+			<p>
+				Aliquip consectetur irure anim laborum officia ea ut sunt excepteur ad consectetur eiusmod.
+				Nostrud occaecat occaecat consectetur incididunt ipsum occaecat est. Exercitation elit
+				excepteur aliquip ullamco laboris sunt ut pariatur aliquip. Consectetur tempor occaecat
+				magna quis est pariatur. Consequat do consequat ipsum laborum qui nisi ipsum ex Lorem ipsum
+				ea. Qui occaecat duis adipisicing voluptate nisi sunt esse commodo adipisicing id voluptate
+				irure deserunt ut.
+			</p>
+			<div class="rating p-10 flex justify-end">
+				<img class="h-10 w-10" src="/icons/compass.svg" alt="" srcset="" />
+				<img class="h-10 w-10" src="/icons/compass.svg" alt="" srcset="" />
+				<img class="h-10 w-10" src="/icons/compass.svg" alt="" srcset="" />
+				<img class="h-10 w-10" src="/icons/compass.svg" alt="" srcset="" />
+				<img class="h-10 w-10" src="/icons/compass.svg" alt="" srcset="" />
+			</div>
+		</div>
+	</a>
 </div>
-<div class="feed flex flex-col space-y-8">
+<div class="feed flex flex-col space-y-8 -translate-y-44 md:-translate-y-12 lg:-translate-y-32">
 	{#each [1, 2, 3] as _}
 		<!-- This loop is just a placeholder to generate 3 rows. -->
 		<div class="w-full max-w-full h-48">
@@ -48,8 +58,5 @@
 		background-position: center;
 		-webkit-mask-image: linear-gradient(to bottom, black, black 50%, transparent 90%);
 		mask-image: linear-gradient(to bottom, black, black 50%, transparent 90%);
-	}
-	.feed {
-		transform: translateY(-150px);
 	}
 </style>

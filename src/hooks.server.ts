@@ -52,7 +52,7 @@ export async function handleFetch({ request, fetch, event }) {
 		event.cookies.set('refresh_token', new_refresh_token, {
 			path: '/',
 			httpOnly: true,
-			maxAge: 60 * 60 * 24 * 30,
+			maxAge: 60 * 60 * 24 * 7,
 			sameSite: 'lax'
 		});
 

@@ -1,8 +1,9 @@
-import { graphql, type QueryResult, type Table$input, type Table$result } from '$houdini';
+import type { QueryResult } from '$houdini';
+import { TableProvider } from '$lib/table/TableProvider.js';
 import { BadRequestError, hydrateError } from '$lib/validation/tranform-error.js';
 import { redirect } from '@sveltejs/kit';
 
-const validate = (res: QueryResult<Table$result, Table$input>) => {
+const validate = (res: QueryResult) => {
 	const errors = res.errors;
 	if (!errors || !errors.length) {
 		return;
@@ -18,23 +19,14 @@ const validate = (res: QueryResult<Table$result, Table$input>) => {
 export const load = async (event) => {
 	const id = event.params.id;
 
-	const store = graphql(`
-		query Table($where: WhereInput!) {
-			findTable(where: $where) {
-				id
-				title
-				imageUrl
-			}
-		}
-	`);
-	const res = await store.fetch({
-		event,
-		variables: {
-			where: {
-				id
-			}
-		}
-	});
+	const tableProvider = new TableProvider(event);
+
+	const res = await tableProvider.fetchTable(id);
+
+	// TODO: Handle Errors
+
+	const table = res.data?.findTable;
+	const libraries = res.data?.tableLibraries ?? [];
 	validate(res);
 	const data = res.data;
 
@@ -44,6 +36,7 @@ export const load = async (event) => {
 		};
 	}
 	return {
-		table: data?.findTable
+		table,
+		libraries
 	};
 };

@@ -17,6 +17,7 @@
 	"devDependencies": {
 		"@faker-js/faker": "^8.1.0",
 		"@floating-ui/dom": "^1.5.3",
+		"@iconify/svelte": "^3.1.4",
 		"@playwright/test": "^1.28.1",
 		"@skeletonlabs/skeleton": "2.1.0",
 		"@skeletonlabs/tw-plugin": "0.2.0",
