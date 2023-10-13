@@ -5,12 +5,13 @@
 
 	import Icon from '@iconify/svelte';
 	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
+	import DirActions from '../Library/DirActions.svelte';
 
 	export let libraries: TableInfo$result['tableLibraries'];
 	let selectedLibrary = 0;
-	let root: any = null;
-	$: root = libraries[selectedLibrary]?.root;
+
 	export let table: TableInfo$result['findTable'];
+	$: library = libraries[selectedLibrary];
 </script>
 
 <div>
@@ -25,11 +26,18 @@
 	</a>
 	<div class="library-hub pt-6 pb-2 px-2">
 		<h1 class="text-primary-500 px-4">Bibliotecas</h1>
-		<div class="hub-options">
+		<div class="hub-options pt-4">
 			<ListBox>
 				{#each libraries as library, i}
 					<!-- content here -->
-					<ListBoxItem padding="0" bind:group={selectedLibrary} name={library.name} value={i}>
+
+					<ListBoxItem
+						padding="0"
+						bind:group={selectedLibrary}
+						name={library.name}
+						value={i}
+						active="bg-surface-900"
+					>
 						<div class="flex px-4 py-2 items-center">
 							<Icon
 								icon="material-symbols:menu-book-outline-rounded"
@@ -41,23 +49,13 @@
 						</div>
 					</ListBoxItem>
 				{/each}
-				<!-- <div class="navigation-item flex px-4 py-2 space-x-1">
-						<Icon
-							icon="material-symbols:menu-book-outline-rounded"
-							width="16"
-							height="24"
-							class="text-tertiary-500"
-						/>
-						<h1>{library.name}</h1>
-						<ListBoxItem bind:group={valueSingle} name="medium" value="movies">Movies</ListBoxItem>
-						<ListBoxItem bind:group={valueSingle} name="medium" value="tv">TV</ListBoxItem>
-					</div> -->
 			</ListBox>
 		</div>
 	</div>
-	{#if root && root?.length > 0}
-		<Library {root} />
-	{/if}
+	{#if libraries.length}{/if}
+	{#each libraries as library, i}
+		<Library {table} {library} hidden={i !== selectedLibrary} />
+	{/each}
 </div>
 
 <style>

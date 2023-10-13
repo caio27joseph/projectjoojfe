@@ -7,7 +7,6 @@ export const actions: Actions = {
 		const form = await event.request.formData();
 		const title = form.get('title')?.toString();
 		const imageUrl = form.get('imageUrl')?.toString() || undefined;
-		console.log(title, imageUrl);
 
 		const mutation = graphql(`
 			mutation CreateTable($input: CreateTableInput!) {
@@ -29,8 +28,6 @@ export const actions: Actions = {
 				event
 			}
 		);
-		console.log(imageUrl);
-		console.log(res);
 		// TODO: Make better error handler
 		const data = res.data;
 		if (!data?.createTable) {

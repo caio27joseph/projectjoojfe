@@ -19,6 +19,3 @@
 		rounded="hover:rounded-2xl {selected ? 'rounded-2xl' : 'rounded-full'}"
 	/>
 </AppRailAnchor>
-
-<style>
-</style>

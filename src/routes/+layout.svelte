@@ -10,12 +10,15 @@
 
 	import AppLeftBar from './AppLeftBar.svelte';
 	import CreateTableModal from '$lib/components/CreateTableModal.svelte';
+	import CreateArticleModal from '$lib/components/CreateArticleModal.svelte';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		createTableModal: {
-			ref: CreateTableModal,
-			slot: '<p>Skeleton</p>'
+			ref: CreateTableModal
+		},
+		createArticleModal: {
+			ref: CreateArticleModal
 		}
 	};
 	export let data;

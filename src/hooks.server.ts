@@ -55,6 +55,7 @@ export async function handleFetch({ request, fetch, event }) {
 			maxAge: 60 * 60 * 24 * 7,
 			sameSite: 'lax'
 		});
+		event.locals.authenticated = true;
 
 		backup.headers.set('authorization', 'Bearer ' + access_token);
 		const res2 = await fetch(backup);
@@ -64,9 +65,11 @@ export async function handleFetch({ request, fetch, event }) {
 
 	return res;
 }
-
 export async function handle({ event, resolve }) {
 	const access_token = event.cookies.get('access_token');
+
+	event.locals.authenticated = !!access_token;
+
 	const path = event.url.pathname;
 
 	const signRoutes = [
@@ -76,18 +79,23 @@ export async function handle({ event, resolve }) {
 		'/auth/reset-password'
 	];
 	const unprotected = ['/'];
-
-	if (signRoutes.includes(path) && access_token) {
-		throw redirect(302, '/home');
+	if (event.locals.authenticated) {
+		if (signRoutes.includes(path)) {
+			throw redirect(302, '/home');
+		}
+		return resolve(event);
 	}
-
-	if (unprotected.includes(path) || access_token) {
-		const response = await resolve(event);
-
+	if (unprotected.includes(path)) {
+		return resolve(event);
+	}
+	const response = await resolve(event);
+	if (event.locals.authenticated) {
+		if (signRoutes.includes(path)) {
+			throw redirect(302, '/home');
+		}
 		return response;
 	}
-	if (path !== '/auth/sign-in') throw redirect(302, '/auth/sign-in');
-	const response = await resolve(event);
 
-	return response;
+	if (path !== '/auth/sign-in') throw redirect(302, '/auth/sign-in');
+	return resolve(event);
 }

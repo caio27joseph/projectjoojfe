@@ -1,36 +1,51 @@
 <script lang="ts">
 	import { TreeViewItem } from '@skeletonlabs/skeleton';
-	// export let layer: number;
+	import { selectedDirectories } from './store';
+	import Icon from '@iconify/svelte';
+	import DirActions from './DirActions.svelte';
+	import type { TableInfo$result } from '$houdini';
+
+	export let table: TableInfo$result['findTable'];
+	export let library: TableInfo$result['tableLibraries'][0];
+
 	export let directory: IDirectory;
-	let isOpen = false;
-	$: iconPath = isOpen ? 'open_dir.svg' : 'closed_dir.svg';
+	export let editMode: boolean = true;
 
 	const directories = directory?.directories || [];
 	const articles = directory?.articles || [];
-
-	const toggleOpen = () => {
-		isOpen = !isOpen;
-	};
-
-	// Handle the keydown event for accessibility
-	const handleKeyDown = (event: KeyboardEvent) => {
-		if (event.key === 'Enter' || event.key === ' ') {
-			// Space or Enter key
-			toggleOpen();
-			event.preventDefault();
-		}
-	};
+	let hover = '';
 </script>
 
-<TreeViewItem>
-	{directory.name}
-	<!-- <svelte:fragment slot="lead">(Icon)</svelte:fragment> -->
+<TreeViewItem
+	padding="p-2"
+	regionSummary="item [&>.tree-item-content]:w-full [summary:hover .hide-button]:inline-block"
+	name={directory.id}
+	value={directory.id}
+	bind:group={$selectedDirectories}
+>
+	<span class="item flex justify-between grow min-w-full">
+		{directory.name}
+		{#if editMode}
+			<div class="hide-button">
+				<DirActions {table} {directory} {library} />
+			</div>
+		{/if}
+	</span>
 	<svelte:fragment slot="children">
 		{#each directories as directory}
-			<svelte:self {directory} />
+			<svelte:self {directory} {table} />
 		{/each}
-		{#each articles as article}
+		<!-- {#each articles as article}
 			<TreeViewItem>{article.name}</TreeViewItem>
-		{/each}
+		{/each} -->
 	</svelte:fragment>
 </TreeViewItem>
+
+<style>
+	.hide-button {
+		display: none;
+	}
+	.item:hover .hide-button {
+		display: inline-block;
+	}
+</style>

@@ -4,14 +4,14 @@
 	import TableButton from '$lib/components/Table/TableButton.svelte';
 
 	import { getModalStore } from '@skeletonlabs/skeleton';
-	import type { Table$result } from '$houdini';
+	import type { MyTables$result } from '$houdini';
 
 	const modalStore = getModalStore();
 	const modal: ModalSettings = {
 		type: 'component',
 		component: 'createTableModal'
 	};
-	export let tables: Table$result['findTable'][];
+	export let tables: MyTables$result['myTables'];
 </script>
 
 <AppRail active="bg-none" hover="bg-none" gap="p-2 space-y-2">

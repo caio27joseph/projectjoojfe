@@ -1,4 +1,3 @@
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
-// This store will hold the currently selected directory/item name
-export const selectedDirectory = writable<string | null>(null);
+export const selectedDirectories: Writable<string[]> = writable([]);
