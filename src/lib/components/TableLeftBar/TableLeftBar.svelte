@@ -1,17 +1,15 @@
 <script lang="ts">
 	import Library from '$lib/components/Library/Library.svelte';
 	import { page } from '$app/stores';
-	import type { TableInfo$result } from '$houdini';
 
 	import Icon from '@iconify/svelte';
 	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
-	import DirActions from '../Library/DirActions.svelte';
+	import type { TableInfo$result } from '$houdini';
 
 	export let libraries: TableInfo$result['tableLibraries'];
 	let selectedLibrary = 0;
 
 	export let table: TableInfo$result['findTable'];
-	$: library = libraries[selectedLibrary];
 </script>
 
 <div>
@@ -29,8 +27,6 @@
 		<div class="hub-options pt-4">
 			<ListBox>
 				{#each libraries as library, i}
-					<!-- content here -->
-
 					<ListBoxItem
 						padding="0"
 						bind:group={selectedLibrary}
@@ -52,7 +48,6 @@
 			</ListBox>
 		</div>
 	</div>
-	{#if libraries.length}{/if}
 	{#each libraries as library, i}
 		<Library {table} {library} hidden={i !== selectedLibrary} />
 	{/each}

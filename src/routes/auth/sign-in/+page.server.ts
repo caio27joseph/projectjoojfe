@@ -1,5 +1,6 @@
 import { goto, invalidateAll } from '$app/navigation';
 import { API_URL } from '$env/static/private';
+import { setAuthToken } from '$lib/auth/tokens';
 import { redirect, type Actions, type RequestEvent, type ActionResult, fail } from '@sveltejs/kit';
 
 // export async function load({ cookies }) {}
@@ -11,7 +12,7 @@ export const actions: Actions = {
 		locals,
 		request
 	}: RequestEvent<{ email?: string; password?: string }>) => {
-		const form = await request.formData();
+		const form = await request.clone().formData();
 		const email = form.get('email')?.toString();
 		const password = form.get('password')?.toString();
 
@@ -20,27 +21,17 @@ export const actions: Actions = {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ email, password })
 		});
+		const data = await response.json();
 		if (!response.ok) {
-			const data = await response.json();
 			return fail(401, data);
 		} else {
-			const { access_token, refresh_token } = await response.json();
+			const { access_token, refresh_token } = data;
 			if (!access_token) {
 				throw new Error('No access token');
 			}
-			cookies.set('access_token', access_token, {
-				path: '/',
-				httpOnly: true,
-				maxAge: 60 * 60,
-				sameSite: 'lax'
-			});
-			cookies.set('refresh_token', refresh_token, {
-				path: '/',
-				httpOnly: true,
-				maxAge: 60 * 60 * 24 * 7,
-				sameSite: 'lax'
-			});
-
+			try {
+				setAuthToken(cookies, { access_token, refresh_token });
+			} catch (error) {}
 			throw redirect(302, '/home');
 		}
 	}

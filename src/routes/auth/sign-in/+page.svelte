@@ -22,7 +22,7 @@
 				if (result.type === 'failure') {
 					error.set(true);
 				}
-				await applyAction(result);
+				return applyAction(result);
 			};
 		}}
 	>

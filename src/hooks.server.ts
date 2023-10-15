@@ -1,5 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import { API_URL } from '$env/static/private';
+import { deleteAuthToken, setAuthToken } from '$lib/auth/tokens';
+import { setSession } from '$houdini';
 
 const isUnauth = async (res: Response) => {
 	const cRes = res.clone();
@@ -15,9 +17,9 @@ const isUnauth = async (res: Response) => {
 
 export async function handleFetch({ request, fetch, event }) {
 	const access_token = event.cookies.get('access_token');
-	const backup = request.clone();
 	request.headers.set('authorization', 'Bearer ' + access_token);
 
+	const backupRequest = request.clone();
 	const res = await fetch(request);
 	if (await isUnauth(res)) {
 		const refresh_token = event.cookies.get('refresh_token');
@@ -33,32 +35,16 @@ export async function handleFetch({ request, fetch, event }) {
 			body: JSON.stringify({ refresh_token })
 		});
 		if (await isUnauth(refreshRes)) {
-			event.cookies.delete('access_token', {
-				path: '/'
-			});
-			event.cookies.delete('refresh_token', {
-				path: '/'
-			});
+			deleteAuthToken(event.cookies);
 			throw redirect(302, '/auth/sign-in');
 		}
 		const data = await refreshRes.json();
 		const { access_token, refresh_token: new_refresh_token } = data;
-		event.cookies.set('access_token', access_token, {
-			path: '/',
-			httpOnly: true,
-			maxAge: 60 * 60, // 1 hour,
-			sameSite: 'lax'
-		});
-		event.cookies.set('refresh_token', new_refresh_token, {
-			path: '/',
-			httpOnly: true,
-			maxAge: 60 * 60 * 24 * 7,
-			sameSite: 'lax'
-		});
+		setAuthToken(event.cookies, { access_token, refresh_token: new_refresh_token });
 		event.locals.authenticated = true;
 
-		backup.headers.set('authorization', 'Bearer ' + access_token);
-		const res2 = await fetch(backup);
+		backupRequest.headers.set('authorization', 'Bearer ' + access_token);
+		const res2 = await fetch(backupRequest);
 
 		return res2;
 	}
@@ -80,6 +66,10 @@ export async function handle({ event, resolve }) {
 	];
 	const unprotected = ['/'];
 	if (event.locals.authenticated) {
+		setSession(event, {
+			access_token: access_token as string
+		});
+
 		if (signRoutes.includes(path)) {
 			throw redirect(302, '/home');
 		}

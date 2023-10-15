@@ -4,15 +4,16 @@
 	import Icon from '@iconify/svelte';
 	import DirActions from './DirActions.svelte';
 	import type { TableInfo$result } from '$houdini';
+	import type { Dir } from '$lib/types';
 
 	export let table: TableInfo$result['findTable'];
 	export let library: TableInfo$result['tableLibraries'][0];
 
-	export let directory: IDirectory;
+	export let directory: Dir;
 	export let editMode: boolean = true;
 
-	const directories = directory?.directories || [];
-	const articles = directory?.articles || [];
+	$: directories = directory?.directories || [];
+	$: articles = directory?.articles || [];
 	let hover = '';
 </script>
 
@@ -33,7 +34,7 @@
 	</span>
 	<svelte:fragment slot="children">
 		{#each directories as directory}
-			<svelte:self {directory} {table} />
+			<svelte:self {directory} {table} {library} />
 		{/each}
 		<!-- {#each articles as article}
 			<TreeViewItem>{article.name}</TreeViewItem>

@@ -23,8 +23,6 @@ export const load = async (event) => {
 
 	const res = await tableProvider.fetchTable(id);
 
-	// TODO: Handle Errors
-
 	const table = res.data?.findTable;
 	const libraries = res.data?.tableLibraries ?? [];
 	validate(res);

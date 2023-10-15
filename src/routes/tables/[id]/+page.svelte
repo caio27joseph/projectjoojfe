@@ -4,6 +4,7 @@
 	import Inspector from './Inspector.svelte';
 	import Navbar from './Navbar.svelte';
 	const pageTransitionDuration = 100;
+	export let data;
 </script>
 
 <div
@@ -13,6 +14,7 @@
 	<Navbar tabs={['Artigo 2', 'Artigo 3']} />
 	<div class="content-area grid grid-cols-[1fr,auto,300px] gap-4 items-start overflow-hidden">
 		<Chat />
+
 		<div
 			class="divider w-0.5 bg-gradient-to-b from-transparent via-gray-500 to-transparent self-stretch"
 		/>

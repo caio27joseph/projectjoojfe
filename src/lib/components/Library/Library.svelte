@@ -1,30 +1,32 @@
 <script lang="ts">
 	import type { TableInfo$result } from '$houdini';
+	import type { Dir } from '$lib/types';
 	import DirActions from './DirActions.svelte';
 	import Directory from './Directory.svelte';
-	import { TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
+	import { TreeView } from '@skeletonlabs/skeleton';
 	import { groupBy } from 'lodash';
 
 	export let table: TableInfo$result['findTable'];
 	export let library: TableInfo$result['tableLibraries'][1];
-	const root = library?.root ?? [];
-	export let hidden = false;
+	export let hidden: boolean = false;
 
-	const dirByParent = groupBy(root, 'parentId');
-
-	const dirs: IDirectory[] = dirByParent['null'] || [];
-
-	const addChilds = (dir: IDirectory) => {
-		dir.directories = dirByParent[dir.id];
-		for (const child of dir.directories ?? []) {
-			addChilds(child);
+	const makeRoot = (library: TableInfo$result['tableLibraries'][0]) => {
+		const dirByParent = groupBy(library.root ?? [], 'parentId');
+		const makeTree = (
+			dir: Dir | { id: string; name: string; parentId: string; directories?: Dir[] }
+		) => {
+			dir.directories = dirByParent[dir.id] || [];
+			for (const child of dir.directories) {
+				makeTree(child);
+			}
+		};
+		const rootDirs = dirByParent['null'] || [];
+		for (const dir of rootDirs) {
+			makeTree(dir);
 		}
+		return rootDirs as Dir[];
 	};
-	for (const dir of dirs) {
-		addChilds(dir);
-	}
-
-	const editMode = true;
+	$: dirs = makeRoot(library);
 </script>
 
 <div class="container p-2 pt-0 {hidden ? 'hidden' : ''}">

@@ -1,3 +1,4 @@
+import { graphql } from '$houdini';
 import { LibraryProvider } from '$lib/table/LibraryProvider';
 import type { Actions } from '@sveltejs/kit';
 
@@ -18,10 +19,6 @@ export const actions: Actions = {
 		const libraryProvider = new LibraryProvider(event);
 
 		const res = await libraryProvider.createDirectory(body);
-
-		res.data?.addDirectory;
-
-		console.log(res);
 
 		return {
 			status: 200,

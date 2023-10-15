@@ -5,6 +5,9 @@ declare namespace App {
 	interface Locals {
 		authenticated: boolean;
 	}
+	interface Session {
+		access_token: string;
+	}
 	// interface PageData {}
 	// interface Error {}
 	// interface Platform {}

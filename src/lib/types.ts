@@ -1,13 +1,13 @@
 interface IArticle {
 	name: string;
 }
-interface IDirectory {
+export type Dir = {
 	id: string;
 	name: string;
 	parentId?: string | null;
-	directories?: IDirectory[];
+	directories?: Dir[];
 	articles?: IArticle[];
-}
+};
 
 interface IMessage {
 	id: number;
