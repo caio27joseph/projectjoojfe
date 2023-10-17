@@ -10,7 +10,7 @@ export class LibraryProvider {
 	}: {
 		name: string;
 		libraryId: string;
-		parentId: string | undefined;
+		parentId?: string | undefined;
 	}) {
 		const store = graphql(`
 			mutation CreateDirectory($libraryId: ID!, $name: String!, $parentId: String) {

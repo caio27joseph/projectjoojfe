@@ -11,3 +11,9 @@ export const getInitials = (name: string) => {
 		return '?';
 	}
 };
+
+export const cleanFormData = (form: FormData) => {
+	const data = Object.fromEntries(form);
+	Object.keys(data).forEach((key) => data[key] === '' && delete data[key]);
+	return data;
+};

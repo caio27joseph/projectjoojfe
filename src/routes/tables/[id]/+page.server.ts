@@ -1,30 +1,37 @@
 import { graphql } from '$houdini';
 import { LibraryProvider } from '$lib/table/LibraryProvider';
-import type { Actions } from '@sveltejs/kit';
+import { cleanFormData } from '$lib/utils';
+import { fail, type Actions } from '@sveltejs/kit';
+import { ZodError, z } from 'zod';
+
+const createDirectory = z.object({
+	name: z.string().min(2).max(16),
+	parentId: z.string().uuid().optional(),
+	libraryId: z.string().uuid()
+});
 
 export const actions: Actions = {
 	createDirectory: async (event) => {
-		const form = await event.request.formData();
+		const form = cleanFormData(await event.request.formData());
 
-		const name = form.get('name')?.toString() ?? '';
-		const parentId = form.get('parentId')?.toString() || undefined;
-		const libraryId = form.get('libraryId')?.toString() ?? '';
+		try {
+			const result = createDirectory.parse(form);
 
-		const body = {
-			name,
-			parentId,
-			libraryId
-		};
+			const libraryProvider = new LibraryProvider(event);
 
-		const libraryProvider = new LibraryProvider(event);
-
-		const res = await libraryProvider.createDirectory(body);
-
-		return {
-			status: 200,
-			body: {
-				message: 'Directory Created'
+			const res = await libraryProvider.createDirectory(result);
+			return {
+				status: 201,
+				data: result
+			};
+		} catch (error) {
+			if (error instanceof ZodError) {
+				const { fieldErrors: errors } = error.flatten();
+				return fail(400, {
+					data: form,
+					errors
+				});
 			}
-		};
+		}
 	}
 };

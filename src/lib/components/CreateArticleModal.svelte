@@ -5,6 +5,7 @@
 	import TableCard from './TableCard.svelte';
 	import Icon from '@iconify/svelte';
 	import { applyAction, enhance } from '$app/forms';
+	import { unknown } from 'zod';
 
 	export let table: TableInfo$result['findTable'];
 	let valueSingle: string = 'Directory';
@@ -19,6 +20,12 @@
 		id: string;
 	};
 	const store = getModalStore();
+	type Errors = {
+		name?: string[];
+		parentId?: string[];
+		libraryId?: string[];
+	};
+	let errors: Errors;
 </script>
 
 <div class="card card-hover p-4 !bg-surface-500">
@@ -27,6 +34,7 @@
 		{#if directory}
 			<h1 class="text-sm text-gray-400">Adicionando em {directory.name}</h1>
 		{/if}
+
 		<span>Escolha que tipo de elemento vai adicionar</span>
 		<div class="options p-4">
 			<ListBox active="bg-surface-900 w-full">
@@ -53,8 +61,11 @@
 			use:enhance={async ({ formElement, formData, action, cancel, submitter }) => {
 				formData.set('parentId', directory?.id ?? '');
 				formData.set('libraryId', library?.id ?? '');
-
 				return async ({ result, update }) => {
+					if (result.type === 'failure') {
+						errors = result.data?.errors ?? {};
+						return;
+					}
 					store.close();
 					return applyAction(result);
 				};
@@ -65,10 +76,13 @@
 					<input
 						name="name"
 						bind:value={name}
-						class="form-input input block w-full"
+						class="form-input input block w-full {errors?.name && 'input-error'}"
 						type="text"
 						placeholder="Table Name"
 					/>
+					{#each errors?.name ?? [] as error}
+						<span class="text-error-300">{error}</span>
+					{/each}
 				</label>
 			</div>
 			<div class="actions p-6">

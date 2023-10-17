@@ -1,13 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import type { TableInfo$result } from '$houdini';
 	import { getInitials } from '$lib/utils';
 	import { AppRailAnchor, Avatar } from '@skeletonlabs/skeleton';
 
-	export let table: {
-		readonly id: string;
-		readonly title: string;
-		readonly imageUrl?: string | null;
-	};
+	export let table: TableInfo$result['findTable'];
 	const path = table.id ? `/tables/${table.id}` : '/';
 	$: selected = $page.url.pathname === path;
 </script>
