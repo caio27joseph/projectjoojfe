@@ -1,24 +1,15 @@
 import { graphql } from '$houdini';
+import { LibraryProvider } from '$lib/table/LibraryProvider.js';
 
 export const load = async (event) => {
-	const update = graphql(`
-		subscription DirectoryADded {
-			directoryAdded {
-				id
-				name
-				icon
-				root {
-					id
-					name
-					parentId
-				}
-			}
-		}
-	`);
-	$: update.listen();
+	const libraryProvider = new LibraryProvider(event);
+
+	const events = await libraryProvider.events({});
+
+	$: events.listen();
 
 	return {
-		update,
-		...event.data
+		...event.data,
+		libraryEvents: events
 	};
 };

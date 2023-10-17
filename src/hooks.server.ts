@@ -65,6 +65,9 @@ export async function handle({ event, resolve }) {
 		'/auth/reset-password'
 	];
 	const unprotected = ['/'];
+	if (path.endsWith('null')) {
+		console.error('Going To', path);
+	}
 	if (event.locals.authenticated) {
 		setSession(event, {
 			access_token: access_token as string

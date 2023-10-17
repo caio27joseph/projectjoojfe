@@ -5,6 +5,7 @@
 	import { writable } from 'svelte/store';
 
 	let error = writable(false); // To show errors
+	export let form;
 </script>
 
 <div class="min-h-screen flex items-center justify-center flex-col lg:flex-row">
@@ -27,9 +28,7 @@
 		}}
 	>
 		<h2 class="text-on-primary font-heading text-4xl font-bold mb-8">Sign In</h2>
-		{#if $error}
-			<div class="text-error-300">Invalid Credentials!</div>
-		{/if}
+
 		<div class="flex-grow flex flex-col space-y-6">
 			<label class="block">
 				<input
@@ -38,18 +37,24 @@
 					type="email"
 					placeholder="Email"
 				/>
+				{#if form?.errors?.email}
+					<div class="text-error-300">{form?.errors?.email?.join(', ')}</div>
+				{/if}
 			</label>
 			<label class="block">
 				<input
 					id="password"
 					name="password"
-					class="form-input input block w-full"
+					class="form-input input block w-full {form?.errors?.password ? 'input-error' : ''}"
 					type="password"
 					placeholder="Password"
 				/>
+				{#if form?.errors?.password}
+					<div class="text-error-300">{form?.errors?.password?.join(', ')}</div>
+				{/if}
 			</label>
 
-			<a href="#" class="text-tertiary-300 font-base">Forgot your password?</a>
+			<!-- <a href="#" class="text-tertiary-300 font-base">Forgot your password?</a> -->
 
 			<div class="flex flex-col sm:flex-row sm:space-x-4 sm:space-y-0 space-y-2">
 				<button

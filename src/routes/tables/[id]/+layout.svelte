@@ -3,28 +3,31 @@
 	import Controller from '$lib/components/TableLeftBar/TableLeftBarController.svelte';
 
 	export let data;
-	let libraries = data.libraries ?? [];
-
-	const updateLibraries = (librarie: any) => {
-		const index = libraries.findIndex((library) => library.id === librarie.id);
-		if (index === -1) return false;
-		libraries[index] = librarie;
-		libraries = [...libraries];
-	};
-	data.update.subscribe((result) => {
+	$: libraries = data.libraries ?? [];
+	$: table = data.table;
+	data.libraryEvents.subscribe((result) => {
 		const data = result.data;
-		if (!data?.directoryAdded) return false;
-		const index = libraries.findIndex((library) => library.id === data.directoryAdded.id);
-		if (index === -1) return false;
-		// replace library for the received in data
-		updateLibraries(data.directoryAdded);
+		if (!data?.libraryEvent) return false;
+		const { created, updated, removed } = data.libraryEvent;
+		if (updated) {
+			const index = libraries.findIndex((library) => library.id === updated.id);
+			if (index === -1) return false;
+			libraries[index] = updated;
+			libraries = [...libraries];
+		}
+		if (created) {
+			libraries = [...libraries, created];
+		}
+		if (removed) {
+			libraries = libraries.filter((library) => library.id !== removed.id);
+		}
 	});
 </script>
 
 <AppShell>
 	<svelte:fragment slot="sidebarLeft">
-		{#if data.table}
-			<Controller table={data.table} {libraries} />
+		{#if table}
+			<Controller {table} {libraries} />
 		{/if}
 	</svelte:fragment>
 

@@ -38,6 +38,12 @@ type Library {
   table: Table!
 }
 
+type LibraryEvent {
+  created: Library
+  removed: Library
+  updated: Library
+}
+
 type Mutation {
   addDirectory(input: CreateDirectoryInput!, where: WhereInput!): Library!
   createLibrary(input: CreateLibraryInput!): Library!
@@ -57,7 +63,7 @@ type Query {
 }
 
 type Subscription {
-  directoryAdded: Library!
+  libraryEvent: LibraryEvent!
 }
 
 type Table {

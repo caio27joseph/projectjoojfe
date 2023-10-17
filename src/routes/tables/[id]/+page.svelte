@@ -4,7 +4,6 @@
 	import Inspector from './Inspector.svelte';
 	import Navbar from './Navbar.svelte';
 	const pageTransitionDuration = 100;
-	export let data;
 </script>
 
 <div

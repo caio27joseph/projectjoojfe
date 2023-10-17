@@ -8,14 +8,17 @@
 		readonly title: string;
 		readonly imageUrl?: string | null;
 	};
-	const path = `/tables/${table.id}`;
+	const path = table.id ? `/tables/${table.id}` : '/';
 	$: selected = $page.url.pathname === path;
 </script>
 
-<AppRailAnchor href={path} {selected}>
-	<Avatar
-		src={table.imageUrl ?? ''}
-		initials={getInitials(table.title)}
-		rounded="hover:rounded-2xl {selected ? 'rounded-2xl' : 'rounded-full'}"
-	/>
-</AppRailAnchor>
+{#if table?.id && table.id !== 'null'}
+	<!-- content here -->
+	<AppRailAnchor href={path} {selected}>
+		<Avatar
+			src={table?.imageUrl ?? ''}
+			initials={getInitials(table.title)}
+			rounded="hover:rounded-2xl {selected ? 'rounded-2xl' : 'rounded-full'}"
+		/>
+	</AppRailAnchor>
+{/if}

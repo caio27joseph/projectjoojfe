@@ -3,14 +3,14 @@
 
 	export let data;
 
-	const tables = data.myTables ?? [];
+	let tables = data.myTables ?? [];
 
 	const bestTable = tables[0];
 </script>
 
 <div
 	class="container h-[80vh] bg-center bg-cover w-full max-w-full flex flex-col justify-evenly"
-	style="background-image: url({bestTable.imageUrl});"
+	style="background-image: url({bestTable?.imageUrl ?? '/images/table_placeholder.jpg'});"
 >
 	<a class="cols grid grid-cols-2" href="/tables/{bestTable.id}">
 		<div class="grow table-info p-8 text-white variant-glass-surface rounded-sm max-w-0.5">
@@ -48,8 +48,6 @@
 		</div>
 	{/each}
 </div>
-
-<div>Feed Element</div>
 
 <style>
 	.container {

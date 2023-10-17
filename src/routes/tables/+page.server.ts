@@ -35,7 +35,6 @@ export const actions: Actions = {
 				message: 'Invalid email or password'
 			});
 		}
-
 		throw redirect(302, `/tables/${data.createTable.id}`);
 	}
 };

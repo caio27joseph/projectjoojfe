@@ -36,4 +36,39 @@ export class LibraryProvider {
 		);
 		return res;
 	}
+
+	events({}) {
+		const store = graphql(`
+			subscription LibraryEvents {
+				libraryEvent {
+					created {
+						id
+						name
+						icon
+						root {
+							id
+							name
+							parentId
+						}
+					}
+					updated {
+						id
+						name
+						icon
+						root {
+							id
+							name
+							parentId
+						}
+					}
+					removed {
+						id
+						name
+					}
+				}
+			}
+		`);
+
+		return store;
+	}
 }

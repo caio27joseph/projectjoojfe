@@ -8,7 +8,6 @@
 
 	export let libraries: TableInfo$result['tableLibraries'];
 	let selectedLibrary = 0;
-
 	export let table: TableInfo$result['findTable'];
 </script>
 
@@ -16,7 +15,7 @@
 	<a
 		href={$page.url.pathname + '/menu'}
 		class="table-info flex font-bold py-0 !h-44"
-		style="background-image: url({table.imageUrl});"
+		style="background-image: url({table?.imageUrl || '/images/table_placeholder.jpg'});"
 	>
 		<h1 class="text-2xl p-3 pt-10 w-full bg-gradient-to-t from-black">
 			{table.title}
@@ -26,7 +25,7 @@
 		<h1 class="text-primary-500 px-4">Bibliotecas</h1>
 		<div class="hub-options pt-4">
 			<ListBox>
-				{#each libraries as library, i}
+				{#each libraries as library, i (library.id)}
 					<ListBoxItem
 						padding="0"
 						bind:group={selectedLibrary}
