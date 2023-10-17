@@ -19,7 +19,7 @@
 		Configurações de NPC
 		<!-- else if content here -->
 	{:else if $menuSelectedOption === TableMenuEnum.LibrarySettings}
-		<LibrarySettings {libraries} />
+		<LibrarySettings {libraries} {table} />
 	{:else if $menuSelectedOption === TableMenuEnum.DangerZone}
 		<DangerZone />
 	{:else}

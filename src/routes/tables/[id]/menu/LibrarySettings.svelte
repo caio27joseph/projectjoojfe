@@ -28,8 +28,6 @@
 			<div class="libraries">
 				<ListBox>
 					{#each libraries as library, i}
-						<!-- content here -->
-
 						<ListBoxItem
 							padding="0"
 							bind:group={selectedLibrary}
@@ -51,7 +49,9 @@
 				</ListBox>
 			</div>
 			<div class="option text-lg">
-				<Library {table} {library} />
+				{#if library}
+					<Library {table} {library} />
+				{/if}
 			</div>
 		</div>
 		<hr class="!border-t-4 !border-primary-700 rounded-2xl m-5" />

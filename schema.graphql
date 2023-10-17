@@ -55,8 +55,8 @@ type Mutation {
 }
 
 type Query {
+  findLibrary(where: WhereInput!): Library!
   findTable(where: WhereInput!): Table!
-  library(where: WhereInput!): Library!
   myTables: [Table!]!
   tableLibraries(where: FindTableLibrariesInput!): [Library!]!
   user(id: Int!): User!

@@ -93,6 +93,7 @@ export const actions: Actions = {
 				event
 			}
 		);
+
 		throw redirect(302, '/home');
 		// TODO: error handling
 	}
