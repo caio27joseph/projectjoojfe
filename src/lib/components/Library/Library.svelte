@@ -3,7 +3,7 @@
 	import type { Dir } from '$lib/types';
 	import DirActions from './DirActions.svelte';
 	import Directory from './Directory.svelte';
-	import { TreeView } from '@skeletonlabs/skeleton';
+	import { TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
 	import { groupBy } from 'lodash';
 
 	export let table: TableInfo$result['findTable'];
@@ -38,8 +38,8 @@
 		{#each dirs as directory}
 			<Directory {table} {directory} {library} />
 		{/each}
-		<!-- {#each root.articles || [] as article}
+		{#each library.articles?.filter((a) => !a.parentId) || [] as article}
 			<TreeViewItem>{article.name}</TreeViewItem>
-		{/each} -->
+		{/each}
 	</TreeView>
 </div>

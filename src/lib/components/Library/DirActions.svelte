@@ -19,15 +19,10 @@
 		| undefined;
 
 	const modalStore = getModalStore();
-	// import MyCustomComponent from '...';
 
 	const modalComponent: ModalComponent = {
-		// Pass a reference to your custom component
 		ref: CreateArticleModal,
-		// Add the component properties as key/value pairs
-		props: { table, directory, library },
-		// Provide a template literal for the default component slot
-		slot: '<p>Skeleton</p>'
+		props: { table, directory, library }
 	};
 
 	const modal: ModalSettings = {

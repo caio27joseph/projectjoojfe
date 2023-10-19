@@ -1,46 +1,71 @@
 <script lang="ts">
 	import type { CreateTable$input } from '$houdini';
 	import { getInitials } from '$lib/utils';
-	import { Avatar } from '@skeletonlabs/skeleton';
+	import { Avatar, getModalStore } from '@skeletonlabs/skeleton';
 	import TableCard from './TableCard.svelte';
+	import { superForm } from 'sveltekit-superforms/client';
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+	import { applyAction, enhance } from '$app/forms';
 
-	const tableInput: CreateTable$input['input'] = {};
+	export let data;
+	const modalStore = getModalStore();
+
+	const { form, errors, constraints } = superForm(data.createTableForm);
 </script>
 
+<SuperDebug data={$form} />
 <div class="card card-hover p-4 bg-surface-500">
 	<header class="card-header">
 		<h1 class="text-2xl font-bold text-secondary-400">Criar Mesa</h1>
 		<span>Crie uma nova mesa para jogar com seus amigos</span>
 		<div class="preview p-4 flex flex-col space-y-3 justify-center items-center">
-			<Avatar
-				src={tableInput.imageUrl ?? ''}
-				initials={getInitials(tableInput.title ?? '') ?? 'JooJ'}
-			/>
+			<Avatar src={$form.imageUrl ?? ''} initials={getInitials($form.title ?? '') ?? 'JooJ'} />
 			<div class="w-80 h-48">
-				<TableCard title={tableInput.title ?? ''} img={tableInput.imageUrl ?? ''} />
+				<TableCard title={$form.title ?? ''} img={$form.imageUrl ?? ''} />
 			</div>
 		</div>
 	</header>
 	<section class="p-4">
-		<form class="m-8" method="POST" action="/tables?/createTable">
+		<form
+			class="m-8"
+			method="POST"
+			action="/tables?/createTable"
+			use:enhance={(event) => {
+				return ({ result }) => {
+					console.log(result);
+					if (result.type === 'success') {
+						modalStore.close();
+						return applyAction(result);
+					}
+				};
+			}}
+		>
 			<div class="flex-grow flex flex-col space-y-6">
 				<label class="block">
 					<input
 						name="title"
-						bind:value={tableInput.title}
+						bind:value={$form.title}
 						class="form-input input block w-full"
 						type="text"
 						placeholder="Table Title"
+						{...$constraints.title}
 					/>
+					{#if $errors?.title}
+						<span class="text-error-300">{$errors?.title}</span>
+					{/if}
 				</label>
 				<label class="block">
 					<input
 						name="imageUrl"
-						bind:value={tableInput.imageUrl}
+						bind:value={$form.imageUrl}
 						class="form-input input block w-full"
 						type="url"
 						placeholder="Table image Url"
+						{...$constraints.imageUrl}
 					/>
+					{#if $errors?.imageUrl}
+						<span class="text-error-300">{$errors?.imageUrl}</span>
+					{/if}
 				</label>
 			</div>
 			<div class="actions p-6">

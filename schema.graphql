@@ -1,3 +1,17 @@
+type Article {
+  id: ID!
+  library: Library!
+  libraryId: ID!
+  name: String!
+  parentId: String
+}
+
+input CreateArticleInput {
+  libraryId: ID!
+  name: String!
+  parentId: String
+}
+
 input CreateDirectoryInput {
   name: String!
   parentId: String
@@ -26,11 +40,20 @@ type Directory {
   parentId: String
 }
 
+input FindLibraryArticles {
+  libraryId: ID!
+}
+
+input FindTableArticles {
+  tableId: ID!
+}
+
 input FindTableLibrariesInput {
   tableId: ID!
 }
 
 type Library {
+  articles: [Article!]!
   icon: String
   id: ID!
   name: String!
@@ -46,18 +69,24 @@ type LibraryEvent {
 
 type Mutation {
   addDirectory(input: CreateDirectoryInput!, where: WhereInput!): Library!
+  createArticle(input: CreateArticleInput!): Article!
   createLibrary(input: CreateLibraryInput!): Library!
   createTable(input: CreateTableInput!): Table!
+  removeArticle(where: WhereInput!): Article!
   removeLibrary(where: WhereInput!): Library!
   removeTable(where: WhereInput!): Table!
+  updateArticle(input: UpdateArticleInput!, where: WhereInput!): Article!
   updateLibrary(input: UpdateLibraryInput!, where: WhereInput!): Library!
   updateTable(input: UpdateTableInput!, where: WhereInput!): Table!
 }
 
 type Query {
+  article(where: WhereInput!): Article!
   findLibrary(where: WhereInput!): Library!
   findTable(where: WhereInput!): Table!
+  libraryArticles(where: FindLibraryArticles!): [Article!]!
   myTables: [Table!]!
+  tableArticles(where: FindTableArticles!): [Article!]!
   tableLibraries(where: FindTableLibrariesInput!): [Library!]!
   user(id: Int!): User!
 }
@@ -74,6 +103,12 @@ type Table {
   ownerId: ID!
   title: String!
   updatedAt: DateTime!
+}
+
+input UpdateArticleInput {
+  libraryId: ID
+  name: String
+  parentId: String
 }
 
 input UpdateLibraryInput {

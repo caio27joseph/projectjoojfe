@@ -13,7 +13,7 @@
 
 <div>
 	<a
-		href={$page.url.pathname + '/menu'}
+		href="/tables/{table.id}/menu"
 		class="table-info flex font-bold py-0 !h-44"
 		style="background-image: url({table?.imageUrl || '/images/table_placeholder.jpg'});"
 	>

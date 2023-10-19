@@ -1,15 +1,29 @@
 <script lang="ts">
-	import { AppRail, AppRailAnchor, Avatar, type ModalSettings } from '@skeletonlabs/skeleton';
+	import {
+		AppRail,
+		AppRailAnchor,
+		Avatar,
+		type ModalComponent,
+		type ModalSettings
+	} from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import TableButton from '$lib/components/Table/TableButton.svelte';
 
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import type { MyTables$result } from '$houdini';
+	import CreateTableModal from '$lib/components/CreateTableModal.svelte';
 
 	const modalStore = getModalStore();
+
+	export let data;
+	const modalComponent: ModalComponent = {
+		ref: CreateTableModal,
+		props: { data }
+	};
+
 	const modal: ModalSettings = {
 		type: 'component',
-		component: 'createTableModal'
+		component: modalComponent
 	};
 	export let tables: MyTables$result['myTables'];
 </script>
