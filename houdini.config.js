@@ -3,7 +3,7 @@
 /** @type {import('houdini').ConfigFile} */
 const config = {
 	watchSchema: {
-		url: 'env:VITE_API_URL'
+		url: 'env:VITE_GRAPHQL_ENDPOINT_WS'
 	},
 	plugins: {
 		'houdini-svelte': {}
