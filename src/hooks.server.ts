@@ -15,13 +15,22 @@ const isUnauth = async (res: Response) => {
 	return false;
 };
 
+const signRoutes = [
+	'/auth/sign-in',
+	'/auth/sign-up',
+	'/auth/forgot-password',
+	'/auth/reset-password'
+];
+const unprotectedRoutes = ['/'];
+
 export async function handleFetch({ request, fetch, event }) {
 	const access_token = event.cookies.get('access_token');
 	request.headers.set('authorization', 'Bearer ' + access_token);
 
 	const backupRequest = request.clone();
 	const res = await fetch(request);
-	if (await isUnauth(res)) {
+	const path = event.url.pathname;
+	if (!(signRoutes.includes(path) || unprotectedRoutes.includes(path)) && (await isUnauth(res))) {
 		const refresh_token = event.cookies.get('refresh_token');
 		if (!refresh_token) {
 			if (event.url.pathname !== '/auth/sign-in') throw redirect(302, '/auth/sign-in');
@@ -58,16 +67,10 @@ export async function handle({ event, resolve }) {
 
 	const path = event.url.pathname;
 
-	const signRoutes = [
-		'/auth/sign-in',
-		'/auth/sign-up',
-		'/auth/forgot-password',
-		'/auth/reset-password'
-	];
-	const unprotected = ['/'];
 	if (path.endsWith('null')) {
 		console.error('Going To', path);
 	}
+
 	if (event.locals.authenticated) {
 		setSession(event, {
 			access_token: access_token as string
@@ -78,17 +81,11 @@ export async function handle({ event, resolve }) {
 		}
 		return resolve(event);
 	}
-	if (unprotected.includes(path)) {
+	if (unprotectedRoutes.includes(path) || signRoutes.includes(path)) {
+		console.log('Going To', path);
 		return resolve(event);
 	}
-	const response = await resolve(event);
-	if (event.locals.authenticated) {
-		if (signRoutes.includes(path)) {
-			throw redirect(302, '/home');
-		}
-		return response;
-	}
 
-	if (path !== '/auth/sign-in') throw redirect(302, '/auth/sign-in');
+	if (!signRoutes.includes(path)) throw redirect(302, '/auth/sign-in');
 	return resolve(event);
 }
