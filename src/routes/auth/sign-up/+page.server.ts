@@ -2,7 +2,7 @@ import { message, setError, superValidate } from 'sveltekit-superforms/server';
 import { setAuthToken } from '$lib/auth/tokens';
 import { redirect, type Actions, type RequestEvent, type ActionResult, fail } from '@sveltejs/kit';
 import { z } from 'zod';
-import { VITE_API_URL } from '$env/static/private';
+import { VITE_API_ENDPOINT } from '$env/static/private';
 
 const schema = z.object({
 	email: z.string().email(),
@@ -28,7 +28,7 @@ export const actions: Actions = {
 
 		console.log('validating');
 
-		const response = await fetch(VITE_API_URL + '/auth/register', {
+		const response = await fetch(VITE_API_ENDPOINT + '/auth/register', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(form.data)

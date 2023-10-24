@@ -4,11 +4,12 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { subscription } from '$houdini/plugins';
 import type { ClientPluginContext } from '$houdini/runtime/client/documentStore';
 
-const VITE_GRAPHQL_WS = import.meta.env.VITE_GRAPHQL_WS;
-const VITE_API_URL = import.meta.env.VITE_API_URL;
+const VITE_GRAPHQL_ENDPOINT_WS = import.meta.env.VITE_GRAPHQL_ENDPOINT_WS;
+const VITE_GRAPHQL_ENDPOINT = import.meta.env.VITE_GRAPHQL_ENDPOINT;
 
 function createClient({ session }: ClientPluginContext) {
-	const client = new SubscriptionClient(VITE_GRAPHQL_WS, {
+	console.info('Creating ws client, for path', VITE_GRAPHQL_ENDPOINT_WS);
+	const client = new SubscriptionClient(VITE_GRAPHQL_ENDPOINT_WS, {
 		reconnect: true,
 		connectionParams: {
 			authorization: `Bearer ${session?.access_token}`
@@ -24,7 +25,7 @@ function createClient({ session }: ClientPluginContext) {
 }
 
 export default new HoudiniClient({
-	url: VITE_API_URL + '/graphql',
+	url: VITE_GRAPHQL_ENDPOINT,
 	plugins: [subscription(createClient)],
 	fetchParams({ session }) {
 		return {
