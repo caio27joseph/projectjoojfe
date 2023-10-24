@@ -1,10 +1,14 @@
 <script lang="ts">
 	import type { TableInfo$result } from '$houdini';
 	import type { Dir } from '$lib/types';
+	import Icon from '@iconify/svelte';
 	import DirActions from './DirActions.svelte';
 	import Directory from './Directory.svelte';
 	import { TreeView, TreeViewItem } from '@skeletonlabs/skeleton';
 	import { groupBy } from 'lodash';
+	import { NavBarController, activeTab } from '$lib/table/NavBarController';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	export let table: TableInfo$result['findTable'];
 	export let library: TableInfo$result['tableLibraries'][1];
@@ -26,6 +30,7 @@
 		}
 		return rootDirs as Dir[];
 	};
+
 	$: dirs = makeRoot(library);
 </script>
 
@@ -39,7 +44,31 @@
 			<Directory {table} {directory} {library} />
 		{/each}
 		{#each library.articles?.filter((a) => !a.parentId) || [] as article}
-			<TreeViewItem>{article.name}</TreeViewItem>
+			<TreeViewItem
+				><svelte:fragment slot="lead"
+					><Icon
+						icon="material-symbols:article-outline-rounded"
+						width="20"
+						height="28"
+						class="text-tertiary-500"
+					/>
+				</svelte:fragment>
+				<button
+					on:click={() => {
+						NavBarController.openTab({
+							id: article.id,
+							icon: 'material-symbols:article-outline-rounded',
+							name: article.name
+						});
+						goto(`/tables/${table.id}/articles/${article.id}?` + $page.url.searchParams, {
+							replaceState: false,
+							noScroll: true
+						});
+					}}
+				>
+					{article.name}
+				</button>
+			</TreeViewItem>
 		{/each}
 	</TreeView>
 </div>

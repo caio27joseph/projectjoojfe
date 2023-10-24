@@ -1,4 +1,5 @@
 import type { QueryResult } from '$houdini';
+import { NavBarController } from '$lib/table/NavBarController.js';
 import { TableProvider } from '$lib/table/TableProvider.js';
 import { BadRequestError, hydrateError } from '$lib/validation/tranform-error.js';
 import { redirect } from '@sveltejs/kit';
@@ -20,6 +21,7 @@ export const load = async (event) => {
 			status: 404
 		};
 	}
+
 	return {
 		table,
 		libraries

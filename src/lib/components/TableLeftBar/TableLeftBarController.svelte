@@ -7,7 +7,7 @@
 	export let table: TableInfo$result['findTable'];
 	export let libraries: TableInfo$result['tableLibraries'];
 
-	const tableLeftBarRoutes = ['/tables/[tableId]'];
+	const tableLeftBarRoutes = ['/tables/[tableId]', '/tables/[tableId]/articles/[articleId]'];
 </script>
 
 <div class="container h-screen w-[300px] overflow-auto bg-surface-600">

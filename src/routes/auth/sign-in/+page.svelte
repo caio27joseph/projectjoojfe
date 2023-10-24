@@ -56,13 +56,11 @@
 			<!-- <a href="#" class="text-tertiary-300 font-base">Forgot your password?</a> -->
 
 			<div class="flex flex-col sm:flex-row sm:space-x-4 sm:space-y-0 space-y-2">
-				<button
-					class="text-on-primary font-base w-full sm:w-1/2 px-12 py-2 bg-primary-500 rounded-lg shadow-md"
-				>
+				<button class="btn variant-filled-primary w-full sm:w-1/2 px-12 py-2 rounded-lg shadow-md">
 					Sign In
 				</button>
 				<button
-					class="text-on-secondary font-base w-full sm:w-1/2 px-12 py-2 bg-tertiary-700 rounded-lg shadow-md"
+					class="btn variant-filled-secondary w-full sm:w-1/2 px-12 py-2 bg-tertiary-700 rounded-lg shadow-md"
 					on:click|preventDefault={() => goto('/auth/sign-up')}
 				>
 					Create Account

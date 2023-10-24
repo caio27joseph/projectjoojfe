@@ -1,8 +1,7 @@
-import { goto, invalidateAll } from '$app/navigation';
 import { setError, superValidate } from 'sveltekit-superforms/server';
 import { setAuthToken } from '$lib/auth/tokens';
 import { redirect, type Actions, type RequestEvent, type ActionResult, fail } from '@sveltejs/kit';
-import { ZodError, z } from 'zod';
+import { z } from 'zod';
 import { API_URL } from '$env/static/private';
 
 const schema = z.object({
