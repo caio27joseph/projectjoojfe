@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
-import { API_URL } from '$env/static/private';
 import { deleteAuthToken, setAuthToken } from '$lib/auth/tokens';
 import { setSession } from '$houdini';
+import { VITE_API_URL } from '$env/static/private';
 
 const isUnauth = async (res: Response) => {
 	const cRes = res.clone();
@@ -27,7 +27,7 @@ export async function handleFetch({ request, fetch, event }) {
 			if (event.url.pathname !== '/auth/sign-in') throw redirect(302, '/auth/sign-in');
 			return res;
 		}
-		const refreshRes = await fetch(API_URL + '/auth/refresh', {
+		const refreshRes = await fetch(VITE_API_URL + '/auth/refresh', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
