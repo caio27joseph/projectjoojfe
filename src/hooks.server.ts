@@ -28,6 +28,7 @@ export async function handleFetch({ request, fetch, event }) {
 	request.headers.set('authorization', 'Bearer ' + access_token);
 
 	const backupRequest = request.clone();
+	console.debug('URL', request.url);
 	const res = await fetch(request);
 	const path = event.url.pathname;
 	if (!(signRoutes.includes(path) || unprotectedRoutes.includes(path)) && (await isUnauth(res))) {
