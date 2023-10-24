@@ -4,6 +4,7 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { subscription } from '$houdini/plugins';
 import { getAuthToken } from '$lib/auth/tokens';
 import type { ClientPluginContext } from '$houdini/runtime/client/documentStore';
+import { API_URL, GRAPHQL_WS } from '$env/static/private';
 
 function getAccessTokenFromCookies() {
 	const cookieStr = document.cookie;
@@ -12,7 +13,7 @@ function getAccessTokenFromCookies() {
 }
 
 function createClient({ session }: ClientPluginContext) {
-	const client = new SubscriptionClient('ws://localhost:3050/graphql', {
+	const client = new SubscriptionClient(GRAPHQL_WS, {
 		reconnect: true,
 		connectionParams: {
 			authorization: `Bearer ${session?.access_token}`
@@ -28,7 +29,7 @@ function createClient({ session }: ClientPluginContext) {
 }
 
 export default new HoudiniClient({
-	url: 'http://localhost:3050/graphql',
+	url: API_URL + '/graphql',
 	plugins: [subscription(createClient)],
 	fetchParams({ session }) {
 		return {
