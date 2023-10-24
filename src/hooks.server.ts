@@ -28,16 +28,15 @@ export async function handleFetch({ request, fetch, event }) {
 	request.headers.set('authorization', 'Bearer ' + access_token);
 
 	const backupRequest = request.clone();
-	console.time(`Fetching ${backupRequest.url}`);
 	let res;
 	try {
+		console.time(`Finish: ${backupRequest.url}`);
 		res = await fetch(request);
 	} catch (error) {
 		console.log('Error fetching', backupRequest.url);
 		console.error(error);
 		throw error;
 	}
-	console.timeEnd(`Fetching ${backupRequest.url}`);
 	const path = event.url.pathname;
 	if (!(signRoutes.includes(path) || unprotectedRoutes.includes(path)) && (await isUnauth(res))) {
 		const refresh_token = event.cookies.get('refresh_token');
@@ -66,7 +65,7 @@ export async function handleFetch({ request, fetch, event }) {
 
 		return res2;
 	}
-
+	console.timeEnd(`Finish: ${backupRequest.url}`);
 	return res;
 }
 export async function handle({ event, resolve }) {
