@@ -37,8 +37,7 @@ export async function handleFetch({ request, fetch, event }) {
 		console.error(error);
 		throw error;
 	}
-	const path = event.url.pathname;
-	if (!(signRoutes.includes(path) || unprotectedRoutes.includes(path)) && (await isUnauth(res))) {
+	if (await isUnauth(res)) {
 		const refresh_token = event.cookies.get('refresh_token');
 		if (!refresh_token) {
 			if (event.url.pathname !== '/auth/sign-in') throw redirect(302, '/auth/sign-in');
