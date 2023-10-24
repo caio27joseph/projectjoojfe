@@ -82,7 +82,6 @@ export async function handle({ event, resolve }) {
 		return resolve(event);
 	}
 	if (unprotectedRoutes.includes(path) || signRoutes.includes(path)) {
-		console.log('Going To', path);
 		return resolve(event);
 	}
 
