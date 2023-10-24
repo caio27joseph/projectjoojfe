@@ -10,6 +10,8 @@
 
 	import AppLeftBar from './AppLeftBar.svelte';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
+	export let data;
 </script>
 
 <Modal />
@@ -17,6 +19,9 @@
 <!-- App Shell -->
 <AppShell class="app">
 	<!-- Page Route Content -->
+	<svelte:fragment slot="sidebarLeft">
+		<AppLeftBar {data} tables={data.myTables} />
+	</svelte:fragment>
 	<slot />
 </AppShell>
 
