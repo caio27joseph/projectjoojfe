@@ -15,7 +15,7 @@ export const load = async (event) => {
 	const res = await store.fetch({
 		event,
 		variables: {
-			where: { id: event.params.id }
+			where: { id: event.params.tableId }
 		}
 	});
 	const data = res.data;

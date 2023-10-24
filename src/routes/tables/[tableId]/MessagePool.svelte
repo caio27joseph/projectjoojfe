@@ -3,6 +3,7 @@
 	import { groupBy } from 'lodash';
 	import { messagesStore } from './messageStore'; // Adjust the path accordingly
 	import { afterUpdate } from 'svelte';
+	import type { IMessage } from '$lib/types';
 
 	export let messages: IMessage[];
 	let messagePool: HTMLDivElement;
