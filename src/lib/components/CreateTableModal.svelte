@@ -32,8 +32,7 @@
 			action="/tables?/createTable"
 			use:enhance={(event) => {
 				return ({ result }) => {
-					console.log(result);
-					if (result.type === 'success') {
+					if (result.type === 'redirect') {
 						modalStore.close();
 						return applyAction(result);
 					}
