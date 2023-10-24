@@ -15,28 +15,12 @@ const isUnauth = async (res: Response) => {
 	return false;
 };
 
-const signRoutes = [
-	'/auth/sign-in',
-	'/auth/sign-up',
-	'/auth/forgot-password',
-	'/auth/reset-password'
-];
-const unprotectedRoutes = ['/'];
-
 export async function handleFetch({ request, fetch, event }) {
 	const access_token = event.cookies.get('access_token');
 	request.headers.set('authorization', 'Bearer ' + access_token);
 
 	const backupRequest = request.clone();
-	let res;
-	try {
-		console.time(`Finish: ${backupRequest.url}`);
-		res = await fetch(request);
-	} catch (error) {
-		console.log('Error fetching', backupRequest.url);
-		console.error(error);
-		throw error;
-	}
+	const res = await fetch(request);
 	if (await isUnauth(res)) {
 		const refresh_token = event.cookies.get('refresh_token');
 		if (!refresh_token) {
@@ -64,7 +48,7 @@ export async function handleFetch({ request, fetch, event }) {
 
 		return res2;
 	}
-	console.timeEnd(`Finish: ${backupRequest.url}`);
+
 	return res;
 }
 export async function handle({ event, resolve }) {
@@ -74,10 +58,16 @@ export async function handle({ event, resolve }) {
 
 	const path = event.url.pathname;
 
+	const signRoutes = [
+		'/auth/sign-in',
+		'/auth/sign-up',
+		'/auth/forgot-password',
+		'/auth/reset-password'
+	];
+	const unprotected = ['/'];
 	if (path.endsWith('null')) {
 		console.error('Going To', path);
 	}
-
 	if (event.locals.authenticated) {
 		setSession(event, {
 			access_token: access_token as string
@@ -88,10 +78,17 @@ export async function handle({ event, resolve }) {
 		}
 		return resolve(event);
 	}
-	if (unprotectedRoutes.includes(path) || signRoutes.includes(path)) {
+	if (unprotected.includes(path)) {
 		return resolve(event);
 	}
+	const response = await resolve(event);
+	if (event.locals.authenticated) {
+		if (signRoutes.includes(path)) {
+			throw redirect(302, '/home');
+		}
+		return response;
+	}
 
-	if (!signRoutes.includes(path)) throw redirect(302, '/auth/sign-in');
+	if (path !== '/auth/sign-in') throw redirect(302, '/auth/sign-in');
 	return resolve(event);
 }
