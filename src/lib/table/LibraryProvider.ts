@@ -1,4 +1,10 @@
-import { graphql } from '$houdini';
+import { graphql, type TableInfo$result } from '$houdini';
+import { writable } from 'svelte/store';
+
+export const selectedLibraryId = writable<{
+	[key: string]: string;
+}>({});
+export const selectedLibrary = writable<TableInfo$result['tableLibraries'][0]>();
 
 export class LibraryProvider {
 	constructor(private readonly event: any) {}
@@ -50,12 +56,22 @@ export class LibraryProvider {
 							name
 							parentId
 						}
+						articles {
+							id
+							name
+							parentId
+						}
 					}
 					updated {
 						id
 						name
 						icon
 						root {
+							id
+							name
+							parentId
+						}
+						articles {
 							id
 							name
 							parentId
@@ -70,5 +86,25 @@ export class LibraryProvider {
 		`);
 
 		return store;
+	}
+
+	fetchArticle({ articleId }: { articleId: string }) {
+		const store = graphql(`
+			query Article($articleId: ID!) {
+				article(where: { id: $articleId }) {
+					id
+					name
+					parentId
+				}
+			}
+		`);
+
+		const res = store.fetch({
+			variables: {
+				articleId
+			},
+			event: this.event
+		});
+		return res;
 	}
 }

@@ -6,9 +6,9 @@
 
 	export let libraries: TableInfo$result['tableLibraries'];
 	export let table: TableInfo$result['findTable'];
-	let selectedLibrary = 0;
+	let selectedLibraryIndex = 0;
 
-	$: library = libraries[selectedLibrary];
+	$: library = libraries[selectedLibraryIndex];
 </script>
 
 <div>
@@ -30,7 +30,7 @@
 					{#each libraries as library, i}
 						<ListBoxItem
 							padding="0"
-							bind:group={selectedLibrary}
+							bind:group={selectedLibraryIndex}
 							name={library.name}
 							value={i}
 							active="bg-surface-700"

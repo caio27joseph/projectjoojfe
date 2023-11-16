@@ -15,7 +15,7 @@ export const load = async (event) => {
 	const res = await store.fetch({
 		event,
 		variables: {
-			where: { id: event.params.id }
+			where: { id: event.params.tableId }
 		}
 	});
 	const data = res.data;
@@ -68,8 +68,8 @@ export const actions: Actions = {
 		// TODO: error handling
 	},
 	deleteTable: async (event) => {
-		const id = event.params.id;
-		if (!id) {
+		const tableId = event.params.tableId;
+		if (!tableId) {
 			throw redirect(302, '/home');
 		}
 
@@ -86,15 +86,16 @@ export const actions: Actions = {
 		const res = await mutation.mutate(
 			{
 				where: {
-					id
+					id: tableId
 				}
 			},
 			{
 				event
 			}
 		);
-
-		throw redirect(302, '/home');
+		if (res.data?.removeTable) {
+			throw redirect(302, '/home');
+		}
 		// TODO: error handling
 	}
 };

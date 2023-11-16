@@ -9,7 +9,7 @@ export type Dir = {
 	articles?: IArticle[];
 };
 
-interface IMessage {
+export interface IMessage {
 	id: number;
 	content: string;
 	author: {

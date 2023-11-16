@@ -21,7 +21,7 @@
 	<div class="header px-4">
 		<h1 class="text-3xl font-bold text-primary-500">Settings</h1>
 		<span>
-			<h2>Manage your account settings and set e-mail preferences.</h2>
+			<h2 class="text-sm text-secondary-400">Manage your table settings and preferences.</h2>
 		</span>
 	</div>
 	<div class="library-hub pt-6 pb-2 px-2">
@@ -36,9 +36,9 @@
 				>
 					<div class="menu-title flex flex-grow align-middle space-x-1">
 						<img class="min-h-full w-4 object-contain" src="/icons/{MenuIcons[k]}" alt="" />
-						<h1 class="font-thin whitespace-nowrap overflow-ellipsis">
+						<h3 class=" text-base whitespace-nowrap overflow-ellipsis">
 							{v}
-						</h1>
+						</h3>
 					</div>
 				</ListBoxItem>
 			{/each}

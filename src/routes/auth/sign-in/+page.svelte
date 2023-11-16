@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { applyAction, enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
-	import { redirect } from '@sveltejs/kit';
+	import { superForm } from 'sveltekit-superforms/client';
 	import { writable } from 'svelte/store';
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	let error = writable(false); // To show errors
-	export let form;
+	export let data;
+
+	const { form, errors, constraints, enhance } = superForm(data.form);
 </script>
 
 <div class="min-h-screen flex items-center justify-center flex-col lg:flex-row">
@@ -18,14 +20,7 @@
 		method="POST"
 		action="?/login"
 		class="w-full md:m-20 md:w-3/4 lg:w-1/2 xl:max-w-xl p-8 variant-soft-primary rounded-lg shadow-lg space-y-8"
-		use:enhance={(e) => {
-			return async ({ result }) => {
-				if (result.type === 'failure') {
-					error.set(true);
-				}
-				return applyAction(result);
-			};
-		}}
+		use:enhance
 	>
 		<h2 class="text-on-primary font-heading text-4xl font-bold mb-8">Sign In</h2>
 
@@ -33,37 +28,39 @@
 			<label class="block">
 				<input
 					name="email"
-					class="form-input input block w-full {$error ? 'input-error' : ''}"
+					class="form-input input block w-full"
 					type="email"
 					placeholder="Email"
+					bind:value={$form.email}
+					{...$constraints.email}
 				/>
-				{#if form?.errors?.email}
-					<div class="text-error-300">{form?.errors?.email?.join(', ')}</div>
+				{#if $errors?.email}
+					<span class="text-error-300">{$errors?.email?.join(', ')}</span>
 				{/if}
 			</label>
 			<label class="block">
 				<input
 					id="password"
 					name="password"
-					class="form-input input block w-full {form?.errors?.password ? 'input-error' : ''}"
+					class="form-input input block w-full {$errors.password ? 'input-error' : ''}"
 					type="password"
 					placeholder="Password"
+					bind:value={$form.password}
+					{...$constraints.password}
 				/>
-				{#if form?.errors?.password}
-					<div class="text-error-300">{form?.errors?.password?.join(', ')}</div>
+				{#if $errors.password}
+					<span class="text-error-300">{$errors.password?.join(', ')}</span>
 				{/if}
 			</label>
 
 			<!-- <a href="#" class="text-tertiary-300 font-base">Forgot your password?</a> -->
 
 			<div class="flex flex-col sm:flex-row sm:space-x-4 sm:space-y-0 space-y-2">
-				<button
-					class="text-on-primary font-base w-full sm:w-1/2 px-12 py-2 bg-primary-500 rounded-lg shadow-md"
-				>
+				<button class="btn variant-filled-primary w-full sm:w-1/2 px-12 py-2 rounded-lg shadow-md">
 					Sign In
 				</button>
 				<button
-					class="text-on-secondary font-base w-full sm:w-1/2 px-12 py-2 bg-tertiary-700 rounded-lg shadow-md"
+					class="btn variant-filled-secondary w-full sm:w-1/2 px-12 py-2 bg-tertiary-700 rounded-lg shadow-md"
 					on:click|preventDefault={() => goto('/auth/sign-up')}
 				>
 					Create Account

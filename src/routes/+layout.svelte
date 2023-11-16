@@ -9,28 +9,18 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 
 	import AppLeftBar from './AppLeftBar.svelte';
-	import CreateTableModal from '$lib/components/CreateTableModal.svelte';
-	import CreateArticleModal from '$lib/components/CreateArticleModal.svelte';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
-	const modalComponentRegistry: Record<string, ModalComponent> = {
-		createTableModal: {
-			ref: CreateTableModal
-		},
-		createArticleModal: {
-			ref: CreateArticleModal
-		}
-	};
 	export let data;
 </script>
 
-<Modal components={modalComponentRegistry} />
+<Modal />
 <Drawer />
 <!-- App Shell -->
 <AppShell class="app">
 	<!-- Page Route Content -->
 	<svelte:fragment slot="sidebarLeft">
-		<AppLeftBar tables={data.myTables} />
+		<AppLeftBar {data} tables={data.myTables} />
 	</svelte:fragment>
 	<slot />
 </AppShell>

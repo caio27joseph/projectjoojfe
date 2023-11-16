@@ -13,7 +13,7 @@
 	<form method="POST">
 		<div class="header flex justify-between">
 			<div class="left">
-				<h1 class=" text-2xl font-bold text-secondary-400">Editar Mesa da Mesa</h1>
+				<h1 class="text-2xl font-bold text-secondary-400">Editar Mesa da Mesa</h1>
 				<span>Atualiza a configuracao de sua mesa aqui</span>
 			</div>
 			<div class="right">

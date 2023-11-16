@@ -6,12 +6,14 @@
 
 	export let table: TableInfo$result['findTable'];
 	export let libraries: TableInfo$result['tableLibraries'];
+
+	const tableLeftBarRoutes = ['/tables/[tableId]', '/tables/[tableId]/articles/[articleId]'];
 </script>
 
 <div class="container h-screen w-[300px] overflow-auto bg-surface-600">
-	{#if $page.route.id === '/tables/[id]'}
+	{#if tableLeftBarRoutes.includes($page.route.id ?? '')}
 		<TableLeftBar {table} {libraries} />
-	{:else if $page.route.id === '/tables/[id]/menu'}
+	{:else if $page.route.id === '/tables/[tableId]/menu'}
 		<TableMenuBar />
 	{:else}
 		...

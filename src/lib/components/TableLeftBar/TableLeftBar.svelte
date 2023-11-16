@@ -1,36 +1,39 @@
 <script lang="ts">
 	import Library from '$lib/components/Library/Library.svelte';
-	import { page } from '$app/stores';
-
 	import Icon from '@iconify/svelte';
 	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
 	import type { TableInfo$result } from '$houdini';
+	import { page } from '$app/stores';
+	import { writable } from 'svelte/store';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 
 	export let libraries: TableInfo$result['tableLibraries'];
-	let selectedLibrary = 0;
 	export let table: TableInfo$result['findTable'];
+
+	let selectedLibraryId = writable<string | undefined>(libraries?.[0]?.id);
 </script>
 
 <div>
 	<a
-		href={$page.url.pathname + '/menu'}
+		href="/tables/{table.id}/menu"
 		class="table-info flex font-bold py-0 !h-44"
 		style="background-image: url({table?.imageUrl || '/images/table_placeholder.jpg'});"
 	>
-		<h1 class="text-2xl p-3 pt-10 w-full bg-gradient-to-t from-black">
+		<h1 class="text-2xl text-primary-100 p-3 pt-10 w-full bg-gradient-to-t from-black">
 			{table.title}
 		</h1>
 	</a>
 	<div class="library-hub pt-6 pb-2 px-2">
-		<h1 class="text-primary-500 px-4">Bibliotecas</h1>
+		<h1 class="text-primary-500 px-4 text-base">Bibliotecas</h1>
 		<div class="hub-options pt-4">
 			<ListBox>
 				{#each libraries as library, i (library.id)}
 					<ListBoxItem
 						padding="0"
-						bind:group={selectedLibrary}
+						bind:group={$selectedLibraryId}
 						name={library.name}
-						value={i}
+						value={library.id}
 						active="bg-surface-900"
 					>
 						<div class="flex px-4 py-2 items-center">
@@ -40,15 +43,15 @@
 								height="28"
 								class="text-tertiary-500"
 							/>
-							<h1 class="ml-1">{library.name}</h1>
+							<h2 class="ml-1 text-base">{library.name}</h2>
 						</div>
 					</ListBoxItem>
 				{/each}
 			</ListBox>
 		</div>
 	</div>
-	{#each libraries as library, i}
-		<Library {table} {library} hidden={i !== selectedLibrary} />
+	{#each libraries as library}
+		<Library {table} {library} hidden={library.id !== $selectedLibraryId} />
 	{/each}
 </div>
 

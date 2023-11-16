@@ -22,7 +22,7 @@
 		class="input w-1/2 p-2 border rounded-md"
 	/>
 	<div
-		class="markdown w-1/2 p-2 border rounded-md bg-surface-700 overflow-y-auto prose text-gray-200"
+		class="markdown w-1/2 p-2 border rounded-md bg-surface-700 overflow-y-auto text-gray-200"
 		bind:this={preview}
 	/>
 </div>

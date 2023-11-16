@@ -1,28 +1,9 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	let email = '';
-	let password = '';
-	let errorMessage = ''; // For error feedback
-	let successMessage = ''; // For successful registration feedback
+	import { superForm } from 'sveltekit-superforms/client';
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+	export let data;
 
-	async function handleRegister() {
-		const host = 'http://localhost:3050';
-		try {
-			const response = await fetch(`${host}/auth/register`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, password })
-			});
-			if (!response.ok) {
-				const data = await response.json();
-				throw new Error(data.message || 'Registration failed');
-			}
-
-			successMessage = 'Registered successfully! You can now login.';
-		} catch (error: any) {
-			errorMessage = error.message;
-		}
-	}
+	const { form, errors, constraints, enhance, message } = superForm(data.form);
 </script>
 
 <div class="min-h-screen flex items-center justify-center flex-col lg:flex-row">
@@ -35,32 +16,41 @@
 
 	<!-- Registration Form (Right side) -->
 	<form
-		on:submit|preventDefault={handleRegister}
+		method="POST"
+		action="?/register"
 		class="w-full md:m-20 md:w-3/4 lg:w-1/2 xl:max-w-xl p-8 variant-soft-primary rounded-lg shadow-lg space-y-8"
+		use:enhance
 	>
 		<h2 class="text-on-primary font-heading text-4xl font-bold mb-8">Criar Conta</h2>
-		{#if errorMessage}
-			<div class="text-red-500">{errorMessage}</div>
-		{/if}
-		{#if successMessage}
-			<div class="text-green-500">{successMessage}</div>
+		{#if $message}
+			<div class="text-green-500">{$message}</div>
 		{/if}
 		<div class="flex-grow flex flex-col space-y-6">
 			<label class="block">
 				<input
-					bind:value={email}
 					class="form-input input block w-full"
+					name="email"
 					type="email"
 					placeholder="Email"
+					bind:value={$form.email}
+					{...$constraints.email}
 				/>
+				{#if $errors?.email}
+					<span class="text-error-300">{$errors?.email?.join(', ')}</span>
+				{/if}
 			</label>
 			<label class="block">
 				<input
-					bind:value={password}
 					class="form-input input block w-full"
+					name="password"
 					type="password"
 					placeholder="Senha"
+					bind:value={$form.password}
+					{...$constraints.password}
 				/>
+				{#if $errors.password}
+					<span class="text-error-300">{$errors.password?.join(', ')}</span>
+				{/if}
 			</label>
 			<button
 				class="text-on-primary font-base w-full px-12 py-2 bg-primary-500 rounded-lg shadow-md"

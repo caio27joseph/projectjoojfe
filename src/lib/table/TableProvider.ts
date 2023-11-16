@@ -1,4 +1,4 @@
-import { graphql } from '$houdini';
+import { graphql, type CreateTable$input } from '$houdini';
 
 export class TableProvider {
 	constructor(private readonly event: any) {}
@@ -38,6 +38,11 @@ export class TableProvider {
 						name
 						parentId
 					}
+					articles {
+						id
+						name
+						parentId
+					}
 				}
 			}
 		`);
@@ -47,6 +52,27 @@ export class TableProvider {
 				id
 			}
 		});
+		return res;
+	}
+
+	async createTable(input: CreateTable$input['input']) {
+		const mutation = graphql(`
+			mutation CreateTable($input: CreateTableInput!) {
+				createTable(input: $input) {
+					id
+					title
+					imageUrl
+				}
+			}
+		`);
+		const res = await mutation.mutate(
+			{
+				input
+			},
+			{
+				event: this.event
+			}
+		);
 		return res;
 	}
 }
